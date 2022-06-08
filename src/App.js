@@ -3,7 +3,9 @@ import "antd/dist/antd.css"
 import 'moment/locale/zh-cn'
 import {Route,Switch,useHistory } from 'react-router-dom'
 import { Button,message } from 'antd'
-import Login from './pages/login/login'
+import MasterLogin from './pages/login/login'
+import Login from './pages/login/UserLogin/userLogin'
+
 import Admin from './pages/admin/admin'
 
 import moment from 'moment';
@@ -29,6 +31,7 @@ export default function App (){
             
             <div className='app'><Switch>
                 <Route path='/login' component={Login}/>
+                <Route path='/master' component={MasterLogin}/>
                 <Route path='/admin' component={Admin}/>
             </Switch></div>
             

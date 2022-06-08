@@ -35,18 +35,13 @@ export default function Login (){
           message.error('登录失败')
         }
       })
-        /*LoginApi({
-          name:value.username,
-          pwd:value.password
-        }).then(res=>{
-          console.log(res)
-        })*/
+
       };
 
         return(
         <div className='login'>
             <header>
-                <h1>NFT后台管理系统</h1>
+                <h1>BBS后台管理系统</h1>
             </header>
 
             <section>
