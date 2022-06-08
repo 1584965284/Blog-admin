@@ -25,16 +25,16 @@ export default function Login (){
     const history=useHistory();
     const [isLogin,setIsLogin] = useState(true);
     const onFinish=(value)=>{
+        console.log(value)
         axios({
             method: 'post',
-            url: 'http://114.55.119.223/prod-api/api/master/adminLogin',
+            url: 'http://localhost:8080/users/login',
             headers: {
                 "Authorization": "APPCODE " + '77814df9'
             },
-            data:{name:value.username,pwd:value.password}
+            params:{username:value.username,password:value.password}
         }).then(res=>{
-
-            if(res.data.errCode===0){
+            if(res.data.state===200){
                 message.success('登录成功')
                 localStorage.setItem('token',res.data.data.token)
                 localStorage.setItem('name',res.data.data.name)
