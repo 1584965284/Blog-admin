@@ -44,7 +44,7 @@ export default function Login (){
                     history.push('/admin')
                 }, 200);
             }else{
-                message.error('登录失败')
+                message.error(res.data.message)
             }
         })
 
