@@ -1,5 +1,17 @@
 import request from './request'
 
-export const LoginApi=(params)=>request.post('/api/master/adminLogin',params)
+function LoginApi(params)
+{
+     return  request({
+        method: 'get',
+        url: 'users/login',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        params: params
+    })
+}
 
-export const NFTApi=(params)=>request.get('/api/master/getNFTInfo',{params})
+export {
+    LoginApi
+} ;

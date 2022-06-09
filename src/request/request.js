@@ -4,7 +4,7 @@ import axios from 'axios'
 
 // 配置项
 const axiosOption = {
-    baseURL: 'http://114.55.119.223/prod-api',
+    baseURL: 'http://localhost:8080/',
     timeout: 5000
 }
 

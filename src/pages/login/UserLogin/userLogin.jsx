@@ -12,7 +12,7 @@ import {
 import { Form, Input, Button, Checkbox,message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.less'
-//import { LoginApi } from '../../request/api';
+import { LoginApi } from '@/request/api.js';
 import axios from 'axios';
 import moment from 'moment'
 //import Register from "../../../components/Register/Register";
@@ -26,23 +26,27 @@ export default function Login (){
     const [isLogin,setIsLogin] = useState(true);
     const onFinish=(value)=>{
         console.log(value)
-        axios({
-            method: 'post',
+        /*axios({
+            method: 'get',
             url: 'http://localhost:8080/users/login',
+
             headers: {
-                "Authorization": "APPCODE " + '77814df9'
+                "Content-Type": "application/json"
             },
             params:{username:value.username,password:value.password}
-        }).then(res=>{
-            if(res.data.state===200){
+        })*/
+        LoginApi({username:value.username,password:value.password})
+            .then(res=>{
+                if(res.data.state===200){
                 message.success('登录成功')
+                setTimeout(() => {
+                    history.push('/admin')
+                }, 200);
                 localStorage.setItem('token',res.data.data.token)
                 localStorage.setItem('name',res.data.data.name)
                 localStorage.setItem('lastLoginTime',moment(new Date()))
 
-                setTimeout(() => {
-                    history.push('/admin')
-                }, 200);
+
             }else{
                 message.error(res.data.message)
             }
