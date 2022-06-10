@@ -37,13 +37,12 @@ export default function Login (){
         })*/
         LoginApi({username:value.username,password:value.password})
             .then(res=>{
-                if(res.data.state===200){
+                if(res.state===200){
                 message.success('登录成功')
                 setTimeout(() => {
                     history.push('/forum')
                 }, 200);
-                localStorage.setItem('token',res.data.data.token)
-                localStorage.setItem('name',res.data.data.name)
+                localStorage.setItem('token',res.data.uid)
                 localStorage.setItem('lastLoginTime',moment(new Date()))
 
 

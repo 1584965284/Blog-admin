@@ -9,6 +9,7 @@ import {
 import {AntDesignOutlined, InfoCircleOutlined, UserOutlined} from '@ant-design/icons';
 import axios from "axios";
 import {Option} from "antd/es/mentions";
+import {change_password} from "@/request/topicAPI";
 
 const formItemLayout = {
   labelCol: {
@@ -53,16 +54,20 @@ const beforeUpload = (file) => {
 
 
 export default function MyPage(){
+    //data
   const [form] = Form.useForm();
   const [isChangePwd,setIsChangePwd]=useState(false)
     const [isChangeInfo,setIsChangeInfo]=useState(false)
     const [userInfo,setUserInfo]=useState({})
-    const onFinish = (values) => {
-    console.log('Received values of form: ', values);
-  };
-
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState();
+
+    //methods
+    const onFinish = async (values) => {
+        console.log(values);
+        let res=await change_password({oldPassword:values.oldPassword,newPassword:values.newPassword});
+    };
+
 
     const handleChange = (info) => {
         if (info.file.status === 'uploading') {
@@ -78,14 +83,12 @@ export default function MyPage(){
             });
         }
     };
-    const changePwdButton=()=>{
 
-    }
 
 
     return(
 
-       <div>
+       <div style={{height:"800px"}}>
            <div style={{overflow:"hidden"}}>
                <div style={{width:'200px',margin:"0 auto"}}>
                    <Avatar size={64} icon={<AntDesignOutlined />} />
@@ -134,21 +137,33 @@ export default function MyPage(){
                                className='changePwd'
                                onFinish={onFinish}
                                initialValues={{
-                                   residence: ['zhejiang', 'hangzhou', 'xihu'],
                                    prefix: '86',
                                }}
 
                                scrollToFirstError
                            >
-
-
                                <Form.Item
-                                   name="password"
-                                   label="Password"
+                                   name="oldPassword"
+                                   label="旧的密码"
                                    rules={[
                                        {
                                            required: true,
-                                           message: 'Please input your password!',
+                                           message: '请输入旧的密码',
+                                       },
+                                   ]}
+                                   hasFeedback
+
+                               >
+                                   <Input.Password className='MyPageInput'/>
+                               </Form.Item>
+
+                               <Form.Item
+                                   name="newPassword"
+                                   label="新密码"
+                                   rules={[
+                                       {
+                                           required: true,
+                                           message: '请输入新密码',
                                        },
                                    ]}
                                    hasFeedback
@@ -159,17 +174,17 @@ export default function MyPage(){
 
                                <Form.Item
                                    name="confirm"
-                                   label="Confirm Password"
+                                   label="确认密码"
                                    dependencies={['password']}
                                    hasFeedback
                                    rules={[
                                        {
                                            required: true,
-                                           message: 'Please confirm your password!',
+                                           message: '请确认密码',
                                        },
                                        ({ getFieldValue }) => ({
                                            validator(_, value) {
-                                               if (!value || getFieldValue('password') === value) {
+                                               if (!value || getFieldValue('newPassword') === value) {
                                                    return Promise.resolve();
                                                }
 
@@ -180,9 +195,11 @@ export default function MyPage(){
                                >
                                    <Input.Password className='MyPageInput'/>
                                </Form.Item>
+                               <Form.Item>
+                                   <Button type="primary" className='changePwdButton' htmlType="submit" >修改密码</Button>
 
+                               </Form.Item>
 
-                               <Button type="primary" className='changePwdButton' onClick={changePwdButton}>修改密码</Button>
                                <Button type="primary" style={{marginLeft:"30px"}} onClick={()=>{setIsChangePwd(false)}}>取消</Button>
 
 
