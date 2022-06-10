@@ -37,7 +37,8 @@ export default function Login (){
         })*/
         LoginApi({username:value.username,password:value.password})
             .then(res=>{
-                if(res.data.state===200){
+                console.log(res)
+                if(res.state===200){ 
                 message.success('登录成功')
                 setTimeout(() => {
                     history.push('/forum')
