@@ -66,6 +66,11 @@ export default function MyPage(){
     const onFinish = async (values) => {
         console.log(values);
         let res=await change_password({oldPassword:values.oldPassword,newPassword:values.newPassword});
+        if(res.state===200){
+            message.success("修改密码成功")
+        }else{
+            message.error("修改密码失败")
+        }
     };
 
 
@@ -196,13 +201,13 @@ export default function MyPage(){
                                    <Input.Password className='MyPageInput'/>
                                </Form.Item>
                                <Form.Item>
-                                   <Button type="primary" className='changePwdButton' htmlType="submit" >修改密码</Button>
+                                   <Button type="primary" style={{"marginLeft":"240px"}} htmlType="submit" >修改密码</Button>
+                                   <Button type="primary" style={{marginLeft:"30px"}} onClick={()=>{setIsChangePwd(false)}}>取消</Button>
+
 
                                </Form.Item>
 
-                               <Button type="primary" style={{marginLeft:"30px"}} onClick={()=>{setIsChangePwd(false)}}>取消</Button>
-
-
+                              
                            </Form>
                        </div>
                    )
