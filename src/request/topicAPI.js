@@ -24,7 +24,7 @@ const check_my_post =()=>{
 
 const get_by_mid =(params)=>{
     return  request({
-        method: 'post',
+        method: 'get',
         url: 'fposts/get_by_mid',
         headers: {
             "Content-Type": "application/json",
@@ -34,7 +34,7 @@ const get_by_mid =(params)=>{
 }
 const get_by_tid =(params)=>{
     return  request({
-        method: 'post',
+        method: 'get',
         url: 'mposts/get_by_tid',
         headers: {
             "Content-Type": "application/json",

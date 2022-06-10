@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react'
 import axios  from 'axios';
 import { List, Avatar, Space ,Input,Button,Modal, Tooltip,Select} from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
-
+import {useHistory} from 'react-router-dom'
 import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
-import {getall,get_by_tid} from '@/request/topicAPI'
+import {getall,get_by_tid,get_by_mid} from '@/request/topicAPI'
 let input1=false;
 let select='username';
 
@@ -18,7 +18,7 @@ export default function UserManage(props){
     const { Option } = Select;
     const [data, setData] = useState([]);
     const [visible, setVisible] = useState(false);
-    const [userInfo,setUserInfo]=useState({})
+    const [userInfo,setUserInfo]=useState({});
    // const [select,setSelect]=useState('');
     const user={
       "address": "0xbeAd993e565a5Cfa79Da88550Cf556992B87979c",
@@ -37,10 +37,10 @@ export default function UserManage(props){
       "level": "1",
       "upagent": ""
   }
-  
+    const history =useHistory();
     const handleChange=(selectedItems,option)=>{
       //setSelect(option.value)
-      select=option.value
+      select=option.value;
       //console.log(select)
     }
     const selectBefore = (
@@ -51,21 +51,21 @@ export default function UserManage(props){
         <Option value="phone">手机号</Option>
       </Select>
     );
-    
-      
-    
-    
+
+
+
+
     useEffect(() => {
         get_by_tid({tid:props.match.params.tid})
             .then(res => {
-                //console.log(res.data.data.userInfo)
                 if(res.data.state===200){
+                    //console.log(1);
                     /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
                     setData(res.data.data);
                 }
 
             })
-      }, []);
+      }, [props.match.params.tid]);
     
         
 
@@ -129,12 +129,12 @@ const IconText = ({ icon, text }) => (
           avatar={<Avatar src={item.avatar} />}
           title={
             <a href='javascript:;' onClick={() => {
-             
-            setVisible(true);
+             history.push('/forum/follows/'+item.mpostID)
+            //setVisible(true);
             //userInfo=JSON.parse(JSON.stringify(item));
-            setUserInfo(item)
+           // setUserInfo(item)
           }}>
-          {item.topicName}
+          {item.mpostTitle}
           </a>
         }
           description={item.real_name} 

@@ -82,6 +82,8 @@ export default function Forum(){
                             >
                                 <Switch>
                                     <Route path="/forum/posts/:tid" component={Posts} />
+                                    <Route path="/forum/follows/:mid" component={Audit} />
+
                                     <Route path="/forum/mypage" component={MyPage} />
 
                                     <Route path="/forum" component={this} />
