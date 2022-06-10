@@ -9,7 +9,7 @@ import {
 import {AntDesignOutlined, InfoCircleOutlined, UserOutlined} from '@ant-design/icons';
 import axios from "axios";
 import {Option} from "antd/es/mentions";
-import {change_password} from "@/request/topicAPI";
+import {change_password,change_avatar} from "@/request/topicAPI";
 
 const formItemLayout = {
   labelCol: {
@@ -34,9 +34,11 @@ const getBase64 = (img, callback) => {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
+    
 };
 
-const beforeUpload = (file) => {
+const beforeUpload = async (file) => {
+    
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
 
     if (!isJpgOrPng) {
@@ -49,7 +51,9 @@ const beforeUpload = (file) => {
         message.error('Image must smaller than 2MB!');
     }
 
+    
     return isJpgOrPng && isLt2M;
+    
 };
 
 
@@ -75,14 +79,23 @@ export default function MyPage(){
 
 
     const handleChange = (info) => {
+        console.log(info)
         if (info.file.status === 'uploading') {
             setLoading(true);
             return;
-        }
+        }   
 
         if (info.file.status === 'done') {
             // Get this url from response in real world.
+            console.log(info.file)
+//             console.log(file)
+//     let formdata=new FormData();
+// 	        formdata.append('file',file.file)
+// console.log(formdata)
+// let res=await change_avatar(formdata);
+// console.log(res)
             getBase64(info.file.originFileObj, (url) => {
+                console.log(url)
                 setLoading(false);
                 setImageUrl(url);
             });

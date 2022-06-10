@@ -23,9 +23,9 @@ export default function Audit(props){
     const [data, setData] = useState([]);
     const [visible, setVisible] = useState(false);
 
-    const {mid}=props;
+    
 
-
+    
 
 //methods
     const like = () => {
@@ -46,7 +46,7 @@ export default function Audit(props){
 
 
     useEffect( () => {
-        get_by_mid({mid:mid})
+        get_by_mid({mid:props.match.params.mid})
             .then(res => {
                 //console.log(res.data.data.userInfo)
                 if(res.state===200){

@@ -63,7 +63,17 @@ const reg = (params)=>{
         params:params,
     })
 }
+const change_avatar = (params)=>{
+    return  request({
+        method: 'post',
+        url: 'users/change_avatar',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        data:params,
+    })
+}
 
 export {
-    getall,check_my_post,get_by_mid,get_by_tid,change_password,reg
+    getall,check_my_post,get_by_mid,get_by_tid,change_password,reg,change_avatar
 } ;

@@ -2,7 +2,7 @@ import {Avatar, Button, Comment, Form, Input,Upload,Modal} from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import React from "react";
 import {useState} from "react";
-
+import { change_avatar } from "@/request/topicAPI";
 
 
 const { TextArea } = Input;
@@ -48,6 +48,7 @@ export default function MyComment(){
     const handleCancel = () => setPreviewVisible(false);
 
     const handlePreview = async (file) => {
+        console.log(file)
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj);
         }
@@ -57,7 +58,17 @@ export default function MyComment(){
         setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
     };
 
-    const handleChange2 = ({ fileList: newFileList }) => setFileList(newFileList);
+    const handleChange2 = ({ fileList: newFileList }) => {
+        setFileList(newFileList)
+        console.log(fileList)
+    let formdata=new FormData();
+	        formdata.append('file',fileList[0])
+console.log(formdata)
+change_avatar(formdata).then(res=>{
+    console.log(res)
+
+})
+    };
 
     const uploadButton = (
         <div>
