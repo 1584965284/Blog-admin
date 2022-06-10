@@ -48,6 +48,7 @@ const change_password = (params)=>{
         url: 'users/change_password',
         headers: {
             "Content-Type": "application/json",
+            "uid":123
         },
         params:params,
     })
