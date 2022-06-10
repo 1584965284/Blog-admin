@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import {useHistory,Route,Switch} from 'react-router-dom'
 import { AudioOutlined } from '@ant-design/icons';
 import { List, message, Avatar, Skeleton, Divider,Affix,
-    Modal, Button,Input,Card,Comment, Tooltip ,Form } from 'antd';
+    Modal, Button,Input,Card,Comment, Tooltip ,Form,BackTop } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons';
@@ -39,18 +39,18 @@ export default function Audit(props){
     };
 
 
-    // useEffect(async () => {
-    //     get_by_mid({mid:mid})
-    //         .then(res => {
-    //             //console.log(res.data.data.userInfo)
-    //             if(res.data.state===200){
-    //                 /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
-    //                 setData(res.data.data);
-    //             }
-    //
-    //         });
-    //     //let res2=await check_my_post();
-    // }, []);
+    useEffect( () => {
+        get_by_mid({mid:mid})
+            .then(res => {
+                //console.log(res.data.data.userInfo)
+                if(res.state===200){
+                    /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
+                    setData(res.data);
+                }
+
+            });
+        //let res2=await check_my_post();
+    }, []);
 
     //components
 
@@ -77,6 +77,11 @@ export default function Audit(props){
 
     return(
      <div>
+         <>
+             <BackTop />
+
+         </>
+
          <div>
              <Comment
                  actions={actions}
@@ -129,7 +134,7 @@ export default function Audit(props){
                          <List.Item.Meta
                              avatar={<Avatar src={item.avatar} />}
                              title={
-                                 <a href='javascript:;' onClick={() => {
+                                 <a  onClick={() => {
                                      //userInfo=JSON.parse(JSON.stringify(item));
                                      //setUserInfo(item)
                                  }}>
@@ -138,13 +143,28 @@ export default function Audit(props){
                              }
                              description={item.real_name}
                          />
-                         {item.phone}  &nbsp;&nbsp;实名认证:{String(item.verified_status)} &nbsp;&nbsp;是否注册:{String(item.reg)}   &nbsp;&nbsp;level:{item.level}
+                         <div style={{width:'90%',margin:"0 auto"}}>
+                         <p>
+                             We supply a series of design principles, practical patterns and high quality design
+                             resources (Sketch and Axure), to help people create their product prototypes beautifully
+                             and efficiently.<br/>
+                             We supply a series of design principles, practical patterns and high quality design
+                             resources (Sketch and Axure), to help people create their product prototypes beautifully
+                             and efficiently.<br/>
+                             We supply a series of design principles, practical patterns and high quality design
+                             resources (Sketch and Axure), to help people create their product prototypes beautifully
+                             and efficiently.
+                         </p>
+                             </div>
                      </List.Item>
 
                  )}
              />
          </div>
-         <MyComment />
+         <div >
+             <MyComment />
+
+         </div>
 
      </div>
     )

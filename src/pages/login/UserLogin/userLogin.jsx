@@ -13,6 +13,7 @@ import { Form, Input, Button, Checkbox,message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './login.less'
 import { LoginApi } from '@/request/api.js';
+import {reg} from "@/request/topicAPI"
 import axios from 'axios';
 import moment from 'moment'
 //import Register from "../../../components/Register/Register";
@@ -24,21 +25,13 @@ export default function Login (){
 
     const history=useHistory();
     const [isLogin,setIsLogin] = useState(true);
-    const onFinish=(value)=>{
-        console.log(value)
-        /*axios({
-            method: 'get',
-            url: 'http://localhost:8080/users/login',
+    const onFinishLogin=(value)=>{
+        //console.log(value)
 
-            headers: {
-                "Content-Type": "application/json"
-            },
-            params:{username:value.username,password:value.password}
-        })*/
         LoginApi({username:value.username,password:value.password})
             .then(res=>{
 
-                console.log(res)
+                //console.log(res)
                 if(res.state===200){ 
 
                 message.success('登录成功')
@@ -49,7 +42,6 @@ export default function Login (){
                 //console.log(res.data.userID)
                 localStorage.setItem('lastLoginTime',moment(new Date()))
                 //console.log(localStorage.getItem('token'))
-                
 
             }else{
                 message.error(res.data.message)
@@ -57,10 +49,17 @@ export default function Login (){
         })
 
     };
-    useEffect(()=>{
-        //console.log(new Date());
 
-    },[])
+    const onFinishRegister=async (value)=>{
+        console.log(value)
+        let res=await reg({userName:value.userName,email:value.email,password:value.password});
+        if(res.state===200){
+            message.success("注册成功");
+            setIsLogin(true);
+        }else{
+            message.error(res.message)
+        }
+    }
 
 
     return(
@@ -82,7 +81,7 @@ export default function Login (){
                                     initialValues={{
                                         remember: true,
                                     }}
-                                    onFinish={onFinish}
+                                    onFinish={onFinishLogin}
                                 >
                                     <Form.Item
                                         name="username"
@@ -129,9 +128,24 @@ export default function Login (){
                                 <h1>注册</h1>
                                 <Form
                                     name="register"
-                                    onFinish={onFinish}
+                                    onFinish={onFinishRegister}
                                     scrollToFirstError
                                 >
+                                    <Form.Item
+                                        name="userName"
+                                        label="用户名"
+                                        tooltip="唯一标识，不可更改"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your nickname!',
+                                                whitespace: true,
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+
                                     <Form.Item
                                         name="email"
                                         label="邮箱"
@@ -187,20 +201,7 @@ export default function Login (){
                                         <Input.Password />
                                     </Form.Item>
 
-                                    <Form.Item
-                                        name="nickname"
-                                        label="昵称"
-                                        tooltip="What do you want others to call you?"
-                                        rules={[
-                                            {
-                                                required: true,
-                                                message: 'Please input your nickname!',
-                                                whitespace: true,
-                                            },
-                                        ]}
-                                    >
-                                        <Input />
-                                    </Form.Item>
+
 
 
                                     <Form.Item>

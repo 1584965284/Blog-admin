@@ -214,7 +214,7 @@ export default function MyPage(){
            }
            <div style={{marginTop:"10px"}}>
                {isChangeInfo ? (
-                   <div style={{marginLeft:"150px",position:"absolute",bottom:"-120px",width:"800px"}}>
+                   <div style={{marginLeft:"150px",width:"800px"}}>
                        用户名：
                        <Input
                            placeholder={userInfo.username}

@@ -24,18 +24,7 @@ export default function UserManage(props){
       "address": "0xbeAd993e565a5Cfa79Da88550Cf556992B87979c",
       "username": "user_beAd993e565a5Cfa79Da88550Cf556992B87979c",
       "avatar": "/img/user_logo.jpg",
-      "verified_status": false,
-      "real_name": "",
-      "phone": "",
-      "idcard": "",
-      "work_num": 0,
-      "time": "2022-03-14T16:07:25.311Z",
-      "__v": 0,
       "sex": "女",
-      "reg": false,
-      "downagent": "[]",
-      "level": "1",
-      "upagent": ""
   }
     const history =useHistory();
     const handleChange=(selectedItems,option)=>{
@@ -53,15 +42,13 @@ export default function UserManage(props){
     );
 
 
-
-
     useEffect(() => {
         get_by_tid({tid:props.match.params.tid})
             .then(res => {
-                if(res.data.state===200){
+                if(res.state===200){
                     //console.log(1);
                     /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
-                    setData(res.data.data);
+                    setData(res.data);
                 }
 
             })
@@ -128,7 +115,7 @@ const IconText = ({ icon, text }) => (
         <List.Item.Meta
           avatar={<Avatar src={item.avatar} />}
           title={
-            <a href='javascript:;' onClick={() => {
+            <a onClick={() => {
              history.push('/forum/follows/'+item.mpostID)
             //setVisible(true);
             //userInfo=JSON.parse(JSON.stringify(item));

@@ -53,6 +53,17 @@ const change_password = (params)=>{
     })
 }
 
+const reg = (params)=>{
+    return  request({
+        method: 'get',
+        url: 'users/reg',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        params:params,
+    })
+}
+
 export {
-    getall,check_my_post,get_by_mid,get_by_tid,change_password
+    getall,check_my_post,get_by_mid,get_by_tid,change_password,reg
 } ;

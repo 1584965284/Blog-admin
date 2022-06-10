@@ -1,106 +1,111 @@
 {
   "login": {
 
-      "state": 200
-
+    "state": 200,
+    "data": {
+      "uid": 101
+    }
   },
   "change_password": {
     "state": 200
   },
+  "reg": {
+    "state": 200
+  },
   "getall":{
 
-      "state": 200,
-      "data":[
-        {
-          "topicName":"娱乐",
-          "topicID": 0
-        },
-        {
-          "topicName":"娱乐",
-          "topicID": 1
-        },
-        {
-          "topicName":"娱乐",
-          "topicID": 2
-        },
-        {
-          "topicName":"娱乐",
-          "topicID": 3
-        }
-      ]
+    "state": 200,
+    "data":[
+      {
+        "topicName":"娱乐",
+        "topicID": 0
+      },
+      {
+        "topicName":"娱乐",
+        "topicID": 1
+      },
+      {
+        "topicName":"娱乐",
+        "topicID": 2
+      },
+      {
+        "topicName":"娱乐",
+        "topicID": 3
+      }
+    ]
 
   },
   "get_by_tid": {
 
-      "state":200,
-      "data":[
-        {
-          "mpostTitle":"title1",
-          "mpostID": 0
-        },
-        {
-          "mpostTitle":"title1",
-          "mpostID": 1
-        },
-        {
-          "mpostTitle":"title1",
-          "mpostID": 2
-        },
-        {
-          "mpostTitle":"title1",
-          "mpostID": 3
-        },
-        {
-          "mpostTitle":"title1",
-          "mpostID": 4
-        },
-        {
-          "mpostTitle":"title1",
-          "mpostID": 5
-        },
-        {
-          "mpostTitle":"title1",
-          "mpostID": 6
-        }
-      ]
+    "state":200,
+    "data":[
+      {
+        "mpostTitle":"title1",
+        "mpostID": 0
+      },
+      {
+        "mpostTitle":"title1",
+        "mpostID": 1
+      },
+      {
+        "mpostTitle":"title1",
+        "mpostID": 2
+      },
+      {
+        "mpostTitle":"title1",
+        "mpostID": 3
+      },
+      {
+        "mpostTitle":"title1",
+        "mpostID": 4
+      },
+      {
+        "mpostTitle":"title1",
+        "mpostID": 5
+      },
+      {
+        "mpostTitle":"title1",
+        "mpostID": 6
+      }
+    ]
 
   },
   "get_by_mid": {
 
-      "state": 200,
-      "data":[
-        {
-          "fpostContent":"content"
-        },
-        {
-          "fpostContent":"content"
-        },
-        {
-          "fpostContent":"content"
-        },
-        {
-          "fpostContent":"content"
-        },
-        {
-          "fpostContent":"content"
-        },
-        {
-          "fpostContent":"content"
-        },
-        {
-          "fpostContent":"content"
-        },
-        {
-          "fpostContent":"content"
-        },
-        {
-          "fpostContent":"content"
-        },
-        {
-          "fpostContent":"content"
-        }
-      ]
-    }
+    "state": 200,
+    "data":[
+      {
+        "fpostContent":"content"
+      },
+      {
+        "fpostContent":"content"
+      },
+      {
+        "fpostContent":"content"
+      },
+      {
+        "fpostContent":"content"
+      },
+      {
+        "fpostContent":"content"
+      },
+      {
+        "fpostContent":"content"
+      },
+      {
+        "fpostContent":"content"
+      },
+      {
+        "fpostContent":"content"
+      },
+      {
+        "fpostContent":"content"
+      },
+      {
+        "fpostContent":"content"
+      }
+    ]
+  }
 
 
 }

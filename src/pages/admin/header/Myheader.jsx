@@ -16,7 +16,13 @@ const items1 = ['1', '2', '3'].map((key) => ({
 export default function MyHeader(){
   const history =useHistory()
         const handleClick=e=>{
-            if(e.key<3){
+            console.log(e);
+            // if(e.key==="2"){
+            //    history.push('/forum/MyPage');
+            //     //window.location.replace('/forum/MyPage')
+            //    //window.location.reload()
+            // }
+             if(e.key<3){
               history.push('/forum/'+headerNavPage[e.key-1])
             }
             else{
