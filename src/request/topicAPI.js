@@ -42,7 +42,18 @@ const get_by_tid =(params)=>{
         params:params,
     })
 }
+const change_password = (params)=>{
+    return  request({
+        method: 'get',
+        url: 'users/change_password',
+        headers: {
+            "Content-Type": "application/json",
+            
+        },
+        params:params,
+    })
+}
 
 export {
-    getall,check_my_post,get_by_mid,get_by_tid
+    getall,check_my_post,get_by_mid,get_by_tid,change_password
 } ;

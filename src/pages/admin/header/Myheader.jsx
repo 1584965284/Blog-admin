@@ -5,7 +5,7 @@ import {useHistory,Route,Switch} from 'react-router-dom'
 const { Header, Content, Sider } = Layout;
 
  
-const headerNavPage=['audit','MyPage']
+const headerNavPage=['posts','MyPage']
 const headerNavInfo=['主页','我的','退出登录'];
 const items1 = ['1', '2', '3'].map((key) => ({
   key,
@@ -17,7 +17,7 @@ export default function MyHeader(){
   const history =useHistory()
         const handleClick=e=>{
             if(e.key<3){
-              history.push('/admin/'+headerNavPage[e.key-1])
+              history.push('/forum/'+headerNavPage[e.key-1])
             }
             else{
               message.success('已安全退出')

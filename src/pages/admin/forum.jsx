@@ -28,9 +28,9 @@ export default function Forum(){
     useEffect(async () => {
       history.push('/forum/posts/0');
       let res=await getall();
-      if (res.data.state===200){
+      if (res.state===200){
           //leftNavInfo.push
-          const leftNavInfo=res.data.data;
+          const leftNavInfo=res.data;
           console.log(leftNavInfo);
           setLeftNav(leftNavInfo);
           let items3 =leftNavInfo.map((a,key) => ({

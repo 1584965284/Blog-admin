@@ -1,11 +1,14 @@
 {
   "login": {
-    "data": {
+
       "state": 200
-    }
+
+  },
+  "change_password": {
+    "state": 200
   },
   "getall":{
-    "data": {
+
       "state": 200,
       "data":[
         {
@@ -25,10 +28,10 @@
           "topicID": 3
         }
       ]
-    }
+
   },
   "get_by_tid": {
-    "data":{
+
       "state":200,
       "data":[
         {
@@ -60,10 +63,10 @@
           "mpostID": 6
         }
       ]
-    }
+
   },
   "get_by_mid": {
-    "data": {
+
       "state": 200,
       "data":[
         {
@@ -98,6 +101,6 @@
         }
       ]
     }
-  }
+
 
 }
