@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import axios  from 'axios';
 import { List, Avatar, Space ,Input,Button,Modal, Tooltip,Select} from 'antd';
-import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
+import {MessageOutlined, LikeOutlined, StarOutlined, PlusOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom'
 import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
 import {getall,get_by_tid,get_by_mid} from '@/request/topicAPI'
+import MyComment from "@/components/Comment/Comment";
 let input1=false;
 let select='username';
 
@@ -85,11 +86,31 @@ const IconText = ({ icon, text }) => (
     {text}
   </Space>
 );
-
+    const createPost=()=>{
+        setVisible(true)
+    }
 
     return(
         <div>
+            <Modal
+                title="发帖"
+                centered
+                visible={visible}
+                onOk={() => setVisible(false)}
+                onCancel={() => setVisible(false)}
+                width={700}
+            >
+                <MyComment />
+            </Modal>
+
         <Search addonBefore={selectBefore} placeholder="input search text" onSearch={onSearch} enterButton style={{maxWidth:'30%'}}/>
+            <div  onClick={createPost}
+                  style={{position:'fixed',width:'43px',height:"43px",
+                      background:"#1890ff",borderRadius:"50%","bottom":"110px",
+                      right:"98px",zIndex:"999",textAlign:"center",lineHeight:"45px",fontSize:"20px",color:"white"}}>
+                <PlusOutlined />
+            </div>
+
         <List
     itemLayout="vertical"
     size="large"

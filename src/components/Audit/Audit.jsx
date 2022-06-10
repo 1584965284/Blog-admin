@@ -6,7 +6,7 @@ import { List, message, Avatar, Skeleton, Divider,Affix,
     Modal, Button,Input,Card,Comment, Tooltip ,Form,BackTop } from 'antd';
 import axios from 'axios';
 import moment from 'moment';
-import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined } from '@ant-design/icons';
+import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined,PlusOutlined } from '@ant-design/icons';
 
 //import
 import {getall,check_my_post,get_by_mid} from "@/request/topicAPI";
@@ -21,6 +21,8 @@ export default function Audit(props){
     const [dislikes, setDislikes] = useState(0);
     const [action, setAction] = useState(null);
     const [data, setData] = useState([]);
+    const [visible, setVisible] = useState(false);
+
     const {mid}=props;
 
 
@@ -37,6 +39,10 @@ export default function Audit(props){
         setDislikes(1);
         setAction('disliked');
     };
+    const createFollow=()=>{
+        //setVisible(true)
+        window.scrollTo(0, document.documentElement.scrollHeight-document.documentElement.clientHeight);
+    }
 
 
     useEffect( () => {
@@ -81,6 +87,23 @@ export default function Audit(props){
              <BackTop />
 
          </>
+         <Modal
+             title="发帖"
+             centered
+             visible={visible}
+             onOk={() => setVisible(false)}
+             onCancel={() => setVisible(false)}
+             width={700}
+         >
+             <MyComment />
+         </Modal>
+
+         <div  onClick={createFollow}
+             style={{position:'fixed',width:'43px',height:"43px",
+             background:"#1890ff",borderRadius:"50%","bottom":"110px",
+             right:"98px",zIndex:"999",textAlign:"center",lineHeight:"45px",fontSize:"20px",color:"white"}}>
+             <PlusOutlined />
+         </div>
 
          <div>
              <Comment
