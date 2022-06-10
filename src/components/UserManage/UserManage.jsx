@@ -4,12 +4,16 @@ import { List, Avatar, Space ,Input,Button,Modal, Tooltip,Select} from 'antd';
 import { MessageOutlined, LikeOutlined, StarOutlined } from '@ant-design/icons';
 
 import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
-
+import {getall,get_by_tid} from '@/request/topicAPI'
 let input1=false;
 let select='username';
 
 
-export default function UserManage(){
+export default function UserManage(props){
+    //console.log(props);
+    //console.log(props.location.search);
+    //console.log(props.match.params.tid);
+
     const { Search } = Input;
     const { Option } = Select;
     const [data, setData] = useState([]);
@@ -37,7 +41,7 @@ export default function UserManage(){
     const handleChange=(selectedItems,option)=>{
       //setSelect(option.value)
       select=option.value
-      console.log(select)
+      //console.log(select)
     }
     const selectBefore = (
       <Select defaultValue="username" className="select-before" onChange={handleChange}>
@@ -52,26 +56,14 @@ export default function UserManage(){
     
     
     useEffect(() => {
-        axios({
-            method: 'post',
-            url: 'http://114.55.119.223/prod-api/api/master/getUserInfo',
-            headers: {
-              "Authorization": "Bearer " + localStorage.getItem('token')
-          },
-          data:{
-              page:0,
-              num:0,
-          }
-            
-        })
-            
+        get_by_tid({tid:props.match.params.tid})
             .then(res => {
                 //console.log(res.data.data.userInfo)
-                if(res.data.errCode==0){
+                if(res.data.state===200){
                     /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
-                    setData(res.data.data.userInfo);
+                    setData(res.data.data);
                 }
-              
+
             })
       }, []);
     
@@ -91,8 +83,8 @@ const onSearch = value => {
 })
     
     .then(res => {
-        console.log(res.data.data.userInfo)
-        if(res.data.errCode==0){
+       // console.log(res.data.data.userInfo)
+        if(res.data.errCode===0){
             /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
             //setData(res.data.data.userInfo);
         }
@@ -111,55 +103,6 @@ const IconText = ({ icon, text }) => (
     return(
         <div>
         <Search addonBefore={selectBefore} placeholder="input search text" onSearch={onSearch} enterButton style={{maxWidth:'30%'}}/>
-        <Modal
-        title="用户管理"
-        centered
-        visible={visible}
-        onOk={() => setVisible(false)}
-        onCancel={() => setVisible(false)}
-        width={800}
-      >
-      用户名： 
-      <Input
-      placeholder={userInfo.username}
-      onChange={(a)=>{let d={...userInfo};d.username=a.target.value;setUserInfo(d);}}
-      style={{'maxWidth':'40%'}}
-      prefix={<UserOutlined className="site-form-item-icon" />}
-      suffix={
-        <Tooltip title="修改用户名">
-          <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-        </Tooltip>
-      }
-    />
-    <p></p>性别： 
-    <Select defaultValue={userInfo.sex} value={userInfo.sex}  className="select-before" style={{width:'70px'}} onChange={(a,b)=>{
-      //userInfo.sex=b.value;console.log(userInfo);
-      let d={...userInfo};
-      d.sex=b.value;
-      setUserInfo(d);
-    }}>
-        <Option value="男">男</Option>
-        <Option value="女">女</Option>
-      </Select>
-      <p></p>等级：
-  <Select defaultValue={userInfo.level} value={userInfo.level} className="select-before" style={{width:'150px'}} onChange={(a,b)=>{let d={...userInfo};d.level=b.value;setUserInfo(d);}}>
-        <Option value="1">1</Option>
-        <Option value="2">2（机构管理员）</Option>
-      </Select> <p></p>
-    <Button type="primary" style={{marginTop:'10px'}} onClick={()=>{
-      setVisible(false);
-      axios({
-        method: 'post',
-        url: 'http://114.55.119.223/prod-api/api/master/changeUserInfo',
-        headers: {
-          "Authorization": "Bearer " + localStorage.getItem('token')
-      },
-      data:JSON.stringify(userInfo)
-        
-    }).then(res=>{console.log(res)})
-    }}>修改</Button>
-      </Modal>
-
         <List
     itemLayout="vertical"
     size="large"
@@ -170,14 +113,14 @@ const IconText = ({ icon, text }) => (
       pageSize:6,
     }}
     dataSource={data}
-    /*footer={
-      <div>
-        <b>ant design</b> footer part
-      </div>
-    }*/
+    // footer={
+    //   <div>
+    //     <b>ant design</b> footer part
+    //   </div>
+    // }
     renderItem={item => (
       <List.Item
-        key={item.title}
+
         extra={
             <span>{item.address}</span>
         }
@@ -191,7 +134,7 @@ const IconText = ({ icon, text }) => (
             //userInfo=JSON.parse(JSON.stringify(item));
             setUserInfo(item)
           }}>
-          {item.username}
+          {item.topicName}
           </a>
         }
           description={item.real_name} 

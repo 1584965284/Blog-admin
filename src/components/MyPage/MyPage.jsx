@@ -3,10 +3,12 @@ import {
     Form,
     Input,
     Select,
-    Checkbox,Avatar, Upload,message,
-    Button,
-  } from 'antd';
-import { AntDesignOutlined } from '@ant-design/icons';
+    Checkbox, Avatar, Upload, message,
+    Button, Tooltip,
+} from 'antd';
+import {AntDesignOutlined, InfoCircleOutlined, UserOutlined} from '@ant-design/icons';
+import axios from "axios";
+import {Option} from "antd/es/mentions";
 
 const formItemLayout = {
   labelCol: {
@@ -53,7 +55,9 @@ const beforeUpload = (file) => {
 export default function MyPage(){
   const [form] = Form.useForm();
   const [isChangePwd,setIsChangePwd]=useState(false)
-  const onFinish = (values) => {
+    const [isChangeInfo,setIsChangeInfo]=useState(false)
+    const [userInfo,setUserInfo]=useState({})
+    const onFinish = (values) => {
     console.log('Received values of form: ', values);
   };
 
@@ -118,7 +122,7 @@ export default function MyPage(){
            {
                !isChangePwd?(
 
-                       <Button type="primary" className='changePwdButton' onClick={()=>{setIsChangePwd(true)}}>修改密码</Button>
+                       <Button type="primary" style={{marginLeft:"100px"}} onClick={()=>{setIsChangePwd(true)}}>修改密码</Button>
 
                    ):
                    (
@@ -186,6 +190,57 @@ export default function MyPage(){
                        </div>
                    )
            }
+           <div style={{marginTop:"40px"}}>
+               {isChangeInfo ? (
+                   <div style={{marginLeft:"150px",position:"absolute",bottom:"120px",width:"800px"}}>
+                       用户名：
+                       <Input
+                           placeholder={userInfo.username}
+                           onChange={(a)=>{let d={...userInfo};d.username=a.target.value;setUserInfo(d);}}
+                           style={{'maxWidth':'40%'}}
+                           prefix={<UserOutlined className="site-form-item-icon" />}
+                           suffix={
+                               <Tooltip title="修改用户名">
+                                   <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                               </Tooltip>
+                           }
+                       />
+                       <p></p>性别：
+                       <Select defaultValue={userInfo.sex} value={userInfo.sex}  className="select-before" style={{width:'70px'}} onChange={(a,b)=>{
+                           //userInfo.sex=b.value;console.log(userInfo);
+                           let d={...userInfo};
+                           d.sex=b.value;
+                           setUserInfo(d);
+                       }}>
+                           <Option value="男">男</Option>
+                           <Option value="女">女</Option>
+                       </Select>
+                       <p></p>等级：
+                       <Select defaultValue={userInfo.level} value={userInfo.level} className="select-before" style={{width:'150px'}} onChange={(a,b)=>{let d={...userInfo};d.level=b.value;setUserInfo(d);}}>
+                           <Option value="1">1</Option>
+                           <Option value="2">2（机构管理员）</Option>
+                       </Select> <p></p>
+                       <Button type="primary" style={{marginTop:'10px'}} onClick={()=>{
+
+                           axios({
+                               method: 'post',
+                               url: 'http://114.55.119.223/prod-api/api/master/changeUserInfo',
+                               headers: {
+                                   "Authorization": "Bearer " + localStorage.getItem('token')
+                               },
+                               data:JSON.stringify(userInfo)
+
+                           }).then(res=>{console.log(res)})
+                       }}>修改</Button>
+                       <Button type="primary" style={{marginLeft:"30px"}} onClick={()=>{setIsChangeInfo(false)}}>取消</Button>
+
+
+                   </div>
+               ):(
+                   <Button type="primary" style={{position:"absolute", marginLeft:"100px",top:"500px"}} onClick={()=>{setIsChangeInfo(true)}}>修改信息</Button>
+
+                   )}
+           </div>
 
        </div>
 

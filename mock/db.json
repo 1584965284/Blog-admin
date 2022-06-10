@@ -1,8 +1,96 @@
 {
-  "login": {"data":{"state": 200}},
-  "articles": [
-    {
-
+  "login": {
+    "data": {
+      "state": 200
     }
-  ]
+  },
+  "getall":{
+    "data": {
+      "state": 200,
+      "data":[
+        {
+          "topicName":"娱乐",
+          "topicID": 0
+        },
+        {
+          "topicName":"娱乐",
+          "topicID": 1
+        },
+        {
+          "topicName":"娱乐",
+          "topicID": 2
+        },
+        {
+          "topicName":"娱乐",
+          "topicID": 3
+        }
+      ]
+    }
+  },
+  "get_by_tid": {
+    "data":{
+      "state":200,
+      "data":[
+        {
+          "mpostTitle":"title1"
+        },
+        {
+          "mpostTitle":"title1"
+        },
+        {
+          "mpostTitle":"title1"
+        },
+        {
+          "mpostTitle":"title1"
+        },
+        {
+          "mpostTitle":"title1"
+        },
+        {
+          "mpostTitle":"title1"
+        },
+        {
+          "mpostTitle":"title1"
+        }
+      ]
+    }
+  },
+  "get_by_mid": {
+    "data": {
+      "state": 200,
+      "data":[
+        {
+          "fpostContent":"content"
+        },
+        {
+          "fpostContent":"content"
+        },
+        {
+          "fpostContent":"content"
+        },
+        {
+          "fpostContent":"content"
+        },
+        {
+          "fpostContent":"content"
+        },
+        {
+          "fpostContent":"content"
+        },
+        {
+          "fpostContent":"content"
+        },
+        {
+          "fpostContent":"content"
+        },
+        {
+          "fpostContent":"content"
+        },
+        {
+          "fpostContent":"content"
+        }
+      ]
+    }
+  }
+
 }

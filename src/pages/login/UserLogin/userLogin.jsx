@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react'
+import React, {Component, useEffect, useState} from 'react'
 import 'moment/locale/zh-cn'
 import { useHistory } from 'react-router-dom';
 import {
@@ -40,7 +40,7 @@ export default function Login (){
                 if(res.data.state===200){
                 message.success('登录成功')
                 setTimeout(() => {
-                    history.push('/admin')
+                    history.push('/forum')
                 }, 200);
                 localStorage.setItem('token',res.data.data.token)
                 localStorage.setItem('name',res.data.data.name)
@@ -53,6 +53,11 @@ export default function Login (){
         })
 
     };
+    useEffect(()=>{
+        //console.log(new Date());
+
+    },[])
+
 
     return(
         <div className='login'>

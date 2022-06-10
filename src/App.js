@@ -6,7 +6,7 @@ import { Button,message } from 'antd'
 import MasterLogin from './pages/login/login'
 import Login from './pages/login/UserLogin/userLogin'
 
-import Admin from './pages/admin/admin'
+import Admin from './pages/admin/forum'
 
 import moment from 'moment';
 moment.locale('zh-cn');  
@@ -23,7 +23,7 @@ export default function App (){
             if(a.diff(b,"hour")>2){
                 history.push('/login')
             }else{
-                history.push('/admin')
+                history.push('/forum')
             }
         }
         
@@ -32,7 +32,7 @@ export default function App (){
             <div className='app'><Switch>
                 <Route path='/login' component={Login}/>
                 <Route path='/master' component={MasterLogin}/>
-                <Route path='/admin' component={Admin}/>
+                <Route path='/forum' component={Admin}/>
             </Switch></div>
             
         )
