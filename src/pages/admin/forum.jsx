@@ -40,8 +40,16 @@ export default function Forum(){
             history.push(pathname);
             console.log(pathname.match(/\d{1}/));
             if(pathname.match(/\d{1}/)!=null){
-                console.log(1);
-                setSelect([pathname.match(/\d{1}/)[0]])
+                console.log(pathname.match(/\d/g));
+                // console.log(leftNav.findIndex(
+                //     (value)=>value==pathname.match(/\d/g)[0]
+                // ).toString());
+
+                setSelect([leftNav.findIndex(
+                    (value)=>value==pathname.match(/\d{1}/)[0]
+                ).toString()
+                        ])
+
             }
         }
 

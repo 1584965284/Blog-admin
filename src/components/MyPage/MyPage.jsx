@@ -4,7 +4,7 @@ import {
     Input,
     Select,
     Checkbox, Avatar, Upload, message,
-    Button, Tooltip,
+    Button, Tooltip,Image
 } from 'antd';
 import {AntDesignOutlined, InfoCircleOutlined, UserOutlined} from '@ant-design/icons';
 import axios from "axios";
@@ -107,6 +107,12 @@ export default function MyPage(){
     return(
 
        <div style={{height:"800px"}}>
+           <Image
+               width={200}
+               src="../../../public/img/user_logo.jpg"
+
+               //src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+           />
            <div style={{overflow:"hidden"}}>
                <div style={{width:'200px',margin:"0 auto"}}>
                    <Avatar size={64} icon={<AntDesignOutlined />} />

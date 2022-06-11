@@ -18,19 +18,19 @@
     "data":[
       {
         "topicName":"娱乐",
-        "topicID": 0
+        "topicID": 1001
       },
       {
         "topicName":"娱乐",
-        "topicID": 1
+        "topicID": 1002
       },
       {
         "topicName":"娱乐",
-        "topicID": 2
+        "topicID": 1003
       },
       {
         "topicName":"娱乐",
-        "topicID": 3
+        "topicID": 1004
       }
     ]
 
@@ -41,15 +41,15 @@
     "data":[
       {
         "mpostTitle":"title1",
-        "mpostID": 0
+        "mpostID": "m0"
       },
       {
         "mpostTitle":"title1",
-        "mpostID": 1
+        "mpostID": "m1"
       },
       {
         "mpostTitle":"title1",
-        "mpostID": 2
+        "mpostID": "m2"
       },
       {
         "mpostTitle":"title1",
