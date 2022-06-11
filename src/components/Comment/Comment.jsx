@@ -48,9 +48,10 @@ export default function MyComment(){
     const handleCancel = () => setPreviewVisible(false);
 
     const handlePreview = async (file) => {
-        console.log(file)
+        console.log(file,2)
         if (!file.url && !file.preview) {
             file.preview = await getBase64(file.originFileObj);
+            console.log(file.preview,1);
         }
 
         setPreviewImage(file.url || file.preview);
@@ -59,15 +60,15 @@ export default function MyComment(){
     };
 
     const handleChange2 = ({ fileList: newFileList }) => {
-        setFileList(newFileList)
-        console.log(fileList)
-    let formdata=new FormData();
-	        formdata.append('file',fileList[0])
-console.log(formdata)
-change_avatar(formdata).then(res=>{
-    console.log(res)
+         setFileList(newFileList)
+//         console.log(fileList)
+//     let formdata=new FormData();
+// 	        formdata.append('file',fileList[0])
+// console.log(formdata)
+// change_avatar(formdata).then(res=>{
+//     console.log(res)
 
-})
+// })
     };
 
     const uploadButton = (
