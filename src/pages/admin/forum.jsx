@@ -16,7 +16,7 @@ import {getall} from "@/request/topicAPI";
 const { Header, Content, Sider } = Layout;
 
 
-export default function Forum(){
+export default function Forum(props){
 //data
     const [item,setItem]=useState([]);
     const [leftNav,setLeftNav]=useState([]);
@@ -34,45 +34,47 @@ export default function Forum(){
             history.push('/forum/posts/'+leftNav[e.key].topicID);
         }
     useEffect( () => {
-        if(pathname==='/'){
-            history.push("/forum");
-        }else{
-            history.push(pathname);
-            console.log(pathname.match(/\d{1}/));
-            if(pathname.match(/\d{1}/)!=null){
-                console.log(pathname.match(/\d/g));
-                // console.log(leftNav.findIndex(
-                //     (value)=>value==pathname.match(/\d/g)[0]
-                // ).toString());
 
-                setSelect([leftNav.findIndex(
-                    (value)=>value==pathname.match(/\d{1}/)[0]
-                ).toString()
-                        ])
+        async function fun(){
+            let nav=[];
+           let res=  await getall();
+            //console.log(res);
+            if (res.state===200){
+                //leftNavInfo.push
+                const leftNavInfo=res.data;
+               nav=res.data;
+                //console.log(nav);
+                setLeftNav(leftNavInfo);
+                let items3 =leftNavInfo.map((a,key) => ({
+                    key,
+                    label: a.topicName,
 
+                }));
+                setItem(items3)
             }
+            console.log(props);
+
+            if(pathname==='/'){
+                history.push("/forum");
+            }else{
+                history.push(pathname);
+                //console.log(pathname.match(/\d{1}/));
+
+
+                if(pathname.match(/\d{1}/)!=null){
+
+                    setSelect([nav.findIndex(
+                        (value)=>value.topicID==pathname.match(/\d/g).join('')
+                    ).toString()
+                    ])
+
+                }
+            }
+
+
         }
 
-
-
-        getall().then(
-          res=>{
-              if (res.state===200){
-                  //leftNavInfo.push
-                  const leftNavInfo=res.data;
-                  console.log(leftNavInfo);
-                  setLeftNav(leftNavInfo);
-                  let items3 =leftNavInfo.map((a,key) => ({
-                      key,
-                      label: a.topicName,
-
-                  }));
-                  setItem(items3)
-                  //console.log(items3);
-              }
-          }
-      )
-
+        fun();
   }, []);
 
         return(
