@@ -1,15 +1,17 @@
-import React,{ useState} from 'react'
+import React,{ useEffect, useState} from 'react'
+import { PlusOutlined } from '@ant-design/icons';
 import {
     Form,
     Input,
     Select,
-    Checkbox, Avatar, Upload, message,
+    Checkbox, Avatar, Upload, message,Modal,
     Button, Tooltip,Image
 } from 'antd';
 import {AntDesignOutlined, InfoCircleOutlined, UserOutlined} from '@ant-design/icons';
 import axios from "axios";
 import {Option} from "antd/es/mentions";
-import {change_password,change_avatar} from "@/request/topicAPI";
+import {change_password,change_avatar,get_by_uid,change_info} from "@/request/topicAPI";
+import FormItem from 'antd/lib/form/FormItem';
 
 const formItemLayout = {
   labelCol: {
@@ -56,7 +58,20 @@ const beforeUpload = async (file) => {
     
 };
 
+const uploadButton = (
+    <div>
+        <PlusOutlined />
+        <div
+            style={{
+                marginTop: 8,
+            }}
+        >
+            Upload
+        </div>
+    </div>
+);
 
+let avatar='';
 export default function MyPage(){
     //data
   const [form] = Form.useForm();
@@ -66,6 +81,17 @@ export default function MyPage(){
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState();
     const [imgurl,setImgurl]=useState('upload/a.jpg')
+    //const [avatar,setAvatar]=useState('')
+    const [fileList, setFileList] = useState([])
+    const [email,setEmail]=useState('')
+    const [sex,setSex]=useState(0)
+   
+
+
+    const [previewVisible, setPreviewVisible] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+    const [previewTitle, setPreviewTitle] = useState('');
+
 
     //methods
     const onFinish = async (values) => {
@@ -78,32 +104,43 @@ export default function MyPage(){
         }
     };
 
+    const getBase64 = (file) =>
+    new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
 
-    const handleChange = (info) => {
-        console.log(info)
-        if (info.file.status === 'uploading') {
-            setLoading(true);
-            return;
-        }   
+        reader.onload = () => resolve(reader.result);
 
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-           //console.log(info.file)
-//             console.log(file)
-//     let formdata=new FormData();
-// 	        formdata.append('file',file.file)
-// console.log(formdata)
-// let res=await change_avatar(formdata);
-// console.log(res)
-            getBase64(info.file.originFileObj, (url) => {
-                console.log(url)
-                setLoading(false);
-                setImageUrl(url);
-            });
-        }
-    };
+        reader.onerror = (error) => reject(error);
+    });
 
 
+const handlePreview = async (file) => {
+    console.log(file,2)
+    if (!file.url && !file.preview) {
+        file.preview = await getBase64(file.originFileObj);
+        console.log(file.preview,1);
+    }
+
+    setPreviewImage(file.url || file.preview);
+    setPreviewVisible(true);
+    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+};
+
+const handleChange2 = ({ fileList: newFileList }) => {
+     setFileList(newFileList)
+
+};
+const handleCancel = () => setPreviewVisible(false);
+
+
+    useEffect(()=>{
+        get_by_uid({uid:localStorage.getItem("token")}).then(res=>{
+            if(res.state===200){
+                avatar=res.data.profile
+            }
+        })
+    },[])
 
     return(
 
@@ -111,39 +148,37 @@ export default function MyPage(){
 
            <div style={{overflow:"hidden"}}>
                <div style={{width:'200px',margin:"0 auto"}}>
-                   <Avatar size={64} icon={<AntDesignOutlined />} />
-                   <img src={require('../../'+'upload/a.jpg')} alt="" />
+                   <Avatar size={64} src={"http://localhost:8080/upload/"+avatar} />
             {/* <div style={{width:"500px",height:"500px",backgroundImage:'url("../MyPage/a.jpg")'}}></div> */}
 
 
                </div>
                <div></div>
                <div style={{width:'220px',margin:"20px auto"}} >
-                   <Upload
-                       name="avatar"
-                       //listType="picture-card"
-                       className="avatar-uploader"
-                       showUploadList={false}
-                       action="http://localhost:8080/users/change_avatar"
-                       headers={{
+               <>
+                <Upload
+                    action="http://localhost:8080/users/change_avatar"
+                    //customRequest={post}
+                    listType="picture-card"
+                    fileList={fileList}
+                    headers={{
                         "uid":localStorage.getItem('token')
                     }}
-                       beforeUpload={beforeUpload}
-                       onChange={handleChange}
-                   >
-                       {imageUrl ? (
-                           <img
-                               src={imageUrl}
-                               alt="avatar"
-                               style={{
-                                   width: '100%',
-                               }}
-                           />
-                       ) : (
-                           <Button type="primary" >修改头像</Button>
-
-                       )}
-                   </Upload>
+                    onPreview={handlePreview}
+                    onChange={handleChange2}
+                >
+                    {fileList.length >= 1 ? null : uploadButton}
+                </Upload>
+                <Modal visible={previewVisible} title={previewTitle} footer={null} onCancel={handleCancel}>
+                    <img
+                        alt="example"
+                        style={{
+                            width: '100%',
+                        }}
+                        src={previewImage}
+                    />
+                </Modal>
+            </>
 
                </div>
 
@@ -236,50 +271,54 @@ export default function MyPage(){
            }
            <div style={{marginTop:"10px"}}>
                {isChangeInfo ? (
-                   <div style={{marginLeft:"150px",width:"800px"}}>
-                       用户名：
+                   <Form onFinish={(v)=>{
+                    //console.log(email,sex)
+                    change_info({email:email,gender:sex}).then(res=>{
+                        if(res.state===200){
+                            message.success('修改成功')
+                        }
+                    }
+                    )}} 
+                   >
+            <div style={{marginLeft:"150px",width:"800px"}}>
+            <FormItem> 邮箱：
+                       
                        <Input
+                       name="email"
                            placeholder={userInfo.username}
-                           onChange={(a)=>{let d={...userInfo};d.username=a.target.value;setUserInfo(d);}}
+                           onChange={(a)=>{setEmail(a.target.value)}}
                            style={{'maxWidth':'40%'}}
                            prefix={<UserOutlined className="site-form-item-icon" />}
                            suffix={
-                               <Tooltip title="修改用户名">
+                               <Tooltip title="修改邮箱">
                                    <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
                                </Tooltip>
                            }
                        />
+                       </FormItem>
+                       
                        <p></p>性别：
-                       <Select defaultValue={userInfo.sex} value={userInfo.sex}  className="select-before" style={{width:'70px'}} onChange={(a,b)=>{
+                       <Select defaultValue={userInfo.sex} value={sex}  className="select-before" style={{width:'70px'}} onChange={(a,b)=>{
                            //userInfo.sex=b.value;console.log(userInfo);
-                           let d={...userInfo};
-                           d.sex=b.value;
-                           setUserInfo(d);
+                          
+                          setSex(b.value)
+                           
                        }}>
-                           <Option value="男">男</Option>
-                           <Option value="女">女</Option>
+                           <Option value="1">男</Option>
+                           <Option value="0">女</Option>
                        </Select>
-                       <p></p>等级：
-                       <Select defaultValue={userInfo.level} value={userInfo.level} className="select-before" style={{width:'150px'}} onChange={(a,b)=>{let d={...userInfo};d.level=b.value;setUserInfo(d);}}>
-                           <Option value="1">1</Option>
-                           <Option value="2">2（机构管理员）</Option>
-                       </Select> <p></p>
-                       <Button type="primary" style={{marginTop:'10px'}} onClick={()=>{
-
-                           axios({
-                               method: 'post',
-                               url: 'http://114.55.119.223/prod-api/api/master/changeUserInfo',
-                               headers: {
-                                   "Authorization": "Bearer " + localStorage.getItem('token')
-                               },
-                               data:JSON.stringify(userInfo)
-
-                           }).then(res=>{console.log(res)})
-                       }}>修改</Button>
+                       <p></p>
+                       
+                       
+                       <p></p>
+                       <Button type="primary" style={{marginTop:'10px'}} htmlType="submit" 
+                       >修改</Button>
                        <Button type="primary" style={{marginLeft:"30px"}} onClick={()=>{setIsChangeInfo(false)}}>取消</Button>
 
 
                    </div>
+                   </Form>
+                   
                ):(
                    <Button type="primary" style={{position:"absolute", marginLeft:"100px",top:"500px"}} onClick={()=>{setIsChangeInfo(true)}}>修改信息</Button>
 

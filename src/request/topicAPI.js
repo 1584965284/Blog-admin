@@ -11,14 +11,15 @@ function getall(params)
     })
 }
 
-const check_my_post =()=>{
+const check_my_post =(params)=>{
     return  request({
         method: 'post',
-        url: 'topics/getall',
+        url: 'mposts/check_my_post',
         headers: {
             "Content-Type": "application/json",
 
         },
+        params:params
     })
 }
 
@@ -83,10 +84,93 @@ const new_fpost = (post,fileList)=>{
         params:{post:post},
         data:{img:fileList}
         
+        
     })
 }
-
-
+const get_by_title=(params)=>{
+    return  request({
+        method: 'post',
+        url: 'mposts/get_by_title',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        params:params,
+        
+        
+    })
+    
+}
+const get_by_uid=(params)=>{
+    
+    return  request({
+        method: 'post',
+        url: 'users/get_by_uid',
+        headers: {
+            "Content-Type": "application/json",
+            
+        },
+        params:params
+        
+        
+    })
+}
+const change_info=(params)=>{
+    
+    return  request({
+        method: 'post',
+        url: 'users/change_info',
+        headers: {
+            "Content-Type": "application/json",
+            
+        },
+        params:params
+        
+        
+    })
+}
+const get_by_uid2=(params)=>{
+    
+    return  request({
+        method: 'post',
+        url: 'mposts/get_by_uid',
+        headers: {
+            "Content-Type": "application/json",
+            
+        },
+        params:params
+        
+        
+    })
+}
+const mlike=(params)=>{
+    
+    return  request({
+        method: 'post',
+        url: 'mposts/add_like',
+        headers: {
+            "Content-Type": "application/json",
+            
+        },
+        params:params
+        
+        
+    })
+}
+const flike=(params)=>{
+    
+    return  request({
+        method: 'post',
+        url: 'fposts/add_like',
+        headers: {
+            "Content-Type": "application/json",
+            
+        },
+        params:params
+        
+        
+    })
+}
 export {
-    getall,check_my_post,get_by_mid,get_by_tid,change_password,reg,change_avatar,new_fpost
+    getall,check_my_post,get_by_mid,get_by_tid,change_password,reg,change_avatar,new_fpost,
+    get_by_title,get_by_uid,change_info,get_by_uid2,mlike,flike
 } ;

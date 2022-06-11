@@ -9,7 +9,7 @@ import moment from 'moment';
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined,PlusOutlined } from '@ant-design/icons';
 
 //import
-import {getall,check_my_post,get_by_mid} from "@/request/topicAPI";
+import {getall,check_my_post,get_by_mid,get_by_uid2,mlike,flike} from "@/request/topicAPI";
 import MyComment from "@/components/Comment/Comment"
 
 
@@ -32,6 +32,13 @@ export default function Audit(props){
         setLikes(1);
         setDislikes(0);
         setAction('liked');
+        mlike({mid:props.match.params.mid}).then(res=>{
+            if(res.state===200){
+                message.success('点赞成功~')
+            }else{
+                message.error(res.message)
+            }
+        })
     };
 
     const dislike = () => {
@@ -43,23 +50,6 @@ export default function Audit(props){
         //setVisible(true)
         window.scrollTo(0, document.documentElement.scrollHeight-document.documentElement.clientHeight);
     }
-
-
-    useEffect( () => {
-        get_by_mid({mid:props.match.params.mid})
-            .then(res => {
-                //console.log(res.data.data.userInfo)
-                if(res.state===200){
-                    /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
-                    setData(res.data);
-                }
-
-            });
-        //let res2=await check_my_post();
-    }, []);
-
-    //components
-
 
     const actions = [
         <Tooltip key="comment-basic-like" title="Like">
@@ -76,9 +66,36 @@ export default function Audit(props){
         </Tooltip>
 
     ];
-    if(isAuthor===true){
-        this.action.push(<span key="comment-basic-reply-to">删除帖子</span>)
-    }
+    // if(isAuthor===true){
+    //     action.push(<span key="comment-basic-reply-to">删除帖子</span>)
+    // }
+
+    useEffect( () => {
+        get_by_mid({mid:props.match.params.mid})
+            .then(res => {
+                //console.log(res.data.data.userInfo)
+                if(res.state===200){
+                    /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
+                    setData(res.data);
+                }
+
+            });
+        //let res2=await check_my_post();
+
+        check_my_post({mid:props.match.params.mid}).then(res=>{
+                if(res.state===200){
+                    if(res.data===true){
+                        setIsAuthor(true)
+                    }else {setIsAuthor(false)}
+                }
+            })
+    }, []);
+
+    //components
+
+
+    
+    
 
 
     return(
@@ -130,6 +147,7 @@ export default function Audit(props){
                      </Tooltip>
                  }
              />
+             {isAuthor?(<span key="comment-basic-reply-to">删除帖子</span>):(<div></div>)}
          </div>
          <div>
              <List
@@ -160,24 +178,15 @@ export default function Audit(props){
                                  <a  onClick={() => {
                                      //userInfo=JSON.parse(JSON.stringify(item));
                                      //setUserInfo(item)
+                                     get_by_uid2({uid:1}).then()
                                  }}>
-                                     {item.fpostContent}
+                                     {item.userName}
                                  </a>
                              }
                              description={item.real_name}
                          />
                          <div style={{width:'90%',margin:"0 auto"}}>
-                         <p>
-                             We supply a series of design principles, practical patterns and high quality design
-                             resources (Sketch and Axure), to help people create their product prototypes beautifully
-                             and efficiently.<br/>
-                             We supply a series of design principles, practical patterns and high quality design
-                             resources (Sketch and Axure), to help people create their product prototypes beautifully
-                             and efficiently.<br/>
-                             We supply a series of design principles, practical patterns and high quality design
-                             resources (Sketch and Axure), to help people create their product prototypes beautifully
-                             and efficiently.
-                         </p>
+                         {item.fpostContent}
                              </div>
                      </List.Item>
 

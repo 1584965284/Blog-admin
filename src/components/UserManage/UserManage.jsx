@@ -4,8 +4,8 @@ import { List, Avatar, Space ,Input,Button,Modal, Tooltip,Select} from 'antd';
 import {MessageOutlined, LikeOutlined, StarOutlined, PlusOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom'
 import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
-import {getall,get_by_tid,get_by_mid} from '@/request/topicAPI'
-import MyComment from "@/components/Comment/Comment";
+import {getall,get_by_tid,get_by_mid, get_by_title} from '@/request/topicAPI'
+import MyComment from "@/components/Post/Post";
 let input1=false;
 let select='username';
 
@@ -35,7 +35,7 @@ export default function UserManage(props){
     }
     const selectBefore = (
       <Select defaultValue="username" className="select-before" onChange={handleChange}>
-        <Option value="username">username</Option>
+        <Option value="username">标题</Option>
         <Option value="address">address</Option>
         <Option value="real_name">姓名</Option>
         <Option value="phone">手机号</Option>
@@ -58,26 +58,14 @@ export default function UserManage(props){
         
 
 const onSearch = value => {
-  user[select]=value
-  console.log(user)
-  axios({
-    method: 'post',
-    url: 'http://114.55.119.223/prod-api/api/master/searchUserInfo',
-    headers: {
-      "Authorization": "Bearer " + localStorage.getItem('token')
-  },
-  data:user,
-    
-})
-    
-    .then(res => {
-       // console.log(res.data.data.userInfo)
-        if(res.data.errCode===0){
-            /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
-            //setData(res.data.data.userInfo);
+    get_by_title({title:value,tid:props.match.params.tid}).then(
+      res=>{
+        if(res.state===200){
+          setData(res.data);
         }
-      
-    })
+      }
+    )
+    
 };
 
 const IconText = ({ icon, text }) => (
@@ -103,7 +91,7 @@ const IconText = ({ icon, text }) => (
                 <MyComment />
             </Modal>
 
-        <Search addonBefore={selectBefore} placeholder="input search text" onSearch={onSearch} enterButton style={{maxWidth:'30%'}}/>
+        <Search addonBefore={selectBefore} placeholder="输入搜索内容" onSearch={onSearch} enterButton style={{maxWidth:'40%'}}/>
             <div  onClick={createPost}
                   style={{position:'fixed',width:'43px',height:"43px",
                       background:"#1890ff",borderRadius:"50%","bottom":"110px",
@@ -145,10 +133,12 @@ const IconText = ({ icon, text }) => (
           {item.mpostTitle}
           </a>
         }
-          description={item.real_name} 
+          description={item.mpostTime?item.mpostTime.slice(0,10):"暂无时间"}
         />
-       {item.phone}  &nbsp;&nbsp;实名认证:{String(item.verified_status)} &nbsp;&nbsp;是否注册:{String(item.reg)}   &nbsp;&nbsp;level:{item.level}
-      </List.Item>
+          <div style={{width:"90%",margin:"0 auto" ,maxHeight:"110px",overflow:"hidden",textOverflow:"ellipsis"}}>
+              {item.mpostContent}
+          </div>
+        </List.Item>
      
     )}
   />

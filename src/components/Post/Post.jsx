@@ -94,15 +94,28 @@ export default function MyComment(){
 
     return(
         <div>
+            <div style={{width:"70%",margin:"0 auto"}}>
+            标题：
+            <TextArea
+    showCount
+    maxLength={40}
+    style={{
+      height: 40,width:400
+    }}
+    onChange={()=>{}}
+  />
             <Comment
+            style={{marginTop:"20px"}}
                 avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
                 content={
-                    <Editor
-                        onChange={handleChange}
-                        onSubmit={handleSubmit}
-                        //submitting={submitting}
-                       // value={value}
-                    />
+                    <TextArea
+    showCount
+    maxLength={40}
+    style={{
+      height: 240,width:400
+    }}
+    onChange={()=>{}}
+  />
                 }
             />
             <>
@@ -129,6 +142,8 @@ export default function MyComment(){
                     />
                 </Modal>
             </>
+            </div>
+            
         </div>
     )
 
