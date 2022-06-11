@@ -24,24 +24,19 @@ export default function UserManage(props){
     const [txt,setTxt]=useState('')
     const [userInfo,setUserInfo]=useState({});
    // const [select,setSelect]=useState('');
-    const user={
-      "address": "0xbeAd993e565a5Cfa79Da88550Cf556992B87979c",
-      "username": "user_beAd993e565a5Cfa79Da88550Cf556992B87979c",
-      "avatar": "/img/user_logo.jpg",
-      "sex": "女",
-  }
+    
     const history =useHistory();
     const handleChange=(selectedItems,option)=>{
       //setSelect(option.value)
       select=option.value;
-      //console.log(select)
+      if(select==1||select=="1"){
+        
+      }
     }
     const selectBefore = (
-      <Select defaultValue="username" className="select-before" onChange={handleChange}>
-        <Option value="username">标题</Option>
-        <Option value="address">address</Option>
-        <Option value="real_name">姓名</Option>
-        <Option value="phone">手机号</Option>
+      <Select defaultValue="0" className="select-before" onChange={handleChange}>
+        <Option value="0">标题</Option>
+        <Option value="1">日期</Option>
       </Select>
     );
 

@@ -12,7 +12,7 @@ import axios from "axios";
 import {Option} from "antd/es/mentions";
 import {change_password,change_avatar,get_by_uid,change_info} from "@/request/topicAPI";
 import FormItem from 'antd/lib/form/FormItem';
-
+const { TextArea } = Input;
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -103,6 +103,7 @@ export default function MyPage(){
             message.error("修改密码失败")
         }
     };
+    
 
     const getBase64 = (file) =>
     new Promise((resolve, reject) => {

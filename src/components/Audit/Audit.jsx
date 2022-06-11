@@ -9,10 +9,9 @@ import moment from 'moment';
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined,PlusOutlined } from '@ant-design/icons';
 
 //import
-import {getall,check_my_post,get_by_mid,get_by_uid2,mlike,flike,new_mpost} from "@/request/topicAPI";
+import {getall,check_my_post,get_by_mid,get_by_uid2,mlike,flike,new_mpost,new_fpost,getM} from "@/request/topicAPI";
 import MyComment from "@/components/Comment/Comment"
-
-
+const { TextArea } = Input;
 //帖子内容以及回帖
 export default function Audit(props){
     //data
@@ -22,12 +21,50 @@ export default function Audit(props){
     const [action, setAction] = useState(null);
     const [data, setData] = useState([]);
     const [visible, setVisible] = useState(false);
+    const [toFollow,setToFollow]=useState(0);
+    const [mPost,setMPost]=useState({});
 
-    
+    let [value,setValue]=useState('');
 
     
 
 //methods
+
+const Editor = ({ onChange, onSubmit, submitting, value }) => (
+    <div>
+        <Form.Item>
+            <TextArea rows={4} onChange={onChange} value={value} showCount maxLength={100}/>
+        </Form.Item>
+        <Form.Item>
+            <Button htmlType="submit" loading={submitting} onClick={onSubmit} type="primary">
+                Add Comment
+            </Button>
+        </Form.Item>
+    </div>
+);
+
+//methods
+const handleChange=(e)=>{
+   // setValue(e.target.value)
+    value=e.target.value;
+    //console.log(value);
+}
+const handleSubmit=async()=>{
+        // console.log(value)
+    new_fpost({
+        post:{
+            mpostID:props.match.params.mid,
+            fpostContent:value,
+            ffloor:toFollow
+        }
+    }).then(res=>{
+        if(res.state===200){
+            message.success("跟帖成功")
+        }else{
+            message.error(res.message)
+        }
+    })
+}
     const like = () => {
         setLikes(1);
         setDislikes(0);
@@ -46,9 +83,12 @@ export default function Audit(props){
         setDislikes(1);
         setAction('disliked');
     };
-    const createFollow=()=>{
+    const createFollow=(ffloor)=>{
         //setVisible(true)
         window.scrollTo(0, document.documentElement.scrollHeight-document.documentElement.clientHeight);
+        if(ffloor!=-1){
+            setToFollow(ffloor)
+        }else{setToFollow(0)}
     }
 
     const actions = [
@@ -88,6 +128,11 @@ export default function Audit(props){
                         setIsAuthor(true)
                     }else {setIsAuthor(false)}
                 }
+            });
+            getM({mid:props.match.params.mid}).then(res=>{
+                if(res.state===200){
+                    setMPost(res.data)
+                }else {message.error(res.message)}
             })
     }, []);
 
@@ -115,7 +160,7 @@ export default function Audit(props){
              <MyComment />
          </Modal>
 
-         <div  onClick={createFollow}
+         <div  onClick={createFollow.bind(this,-1)}
              style={{position:'fixed',width:'43px',height:"43px",
              background:"#1890ff",borderRadius:"50%","bottom":"110px",
              right:"98px",zIndex:"999",textAlign:"center",lineHeight:"45px",fontSize:"20px",color:"white"}}>
@@ -123,24 +168,15 @@ export default function Audit(props){
          </div>
 
          <div>
+             <div style={{fontWeight:"bold",fontSize:"20px",marginLeft:"20px"}}>
+             {mPost.mpostTitle}
+
+             </div>
              <Comment
                  actions={actions}
                  author={<a>Han Solo</a>}
                  avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
-                 content={
-                     <p>
-                         We supply a series of design principles, practical patterns and high quality design
-                         resources (Sketch and Axure), to help people create their product prototypes beautifully
-                         and efficiently.<br/>
-                         We supply a series of design principles, practical patterns and high quality design
-                         resources (Sketch and Axure), to help people create their product prototypes beautifully
-                         and efficiently.<br/>
-                         We supply a series of design principles, practical patterns and high quality design
-                         resources (Sketch and Axure), to help people create their product prototypes beautifully
-                         and efficiently.
-                     </p>
-
-                 }
+                 content={mPost.mpostContent}
                  datetime={
                      <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
                          <span>{moment().fromNow()}</span>
@@ -173,7 +209,7 @@ export default function Audit(props){
                          }
                      >
                          <List.Item.Meta
-                             avatar={<Avatar src={item.avatar} />}
+                             avatar={<Avatar src={"http://localhost:8080/upload/"+item.profile} />}
                              title={
                                  <a  onClick={() => {
                                      //userInfo=JSON.parse(JSON.stringify(item));
@@ -183,9 +219,9 @@ export default function Audit(props){
                                      {item.userName}
                                  </a>
                              }
-                             description={item.real_name}
+                             description={item.ffloor+'楼  '+' '+'  '+item.fpostTime.slice(0,10)}
                          />
-                         <Button style={{position:"relative",bottom:'45px',left:"90%",width:"70px"}} onClick={createFollow()}>回复</Button>
+                         <Button style={{position:"relative",bottom:'45px',left:"90%",width:"70px"}} onClick={createFollow.bind(this,item.ffloor)}>回复</Button>
 
                          <div style={{width:'90%',margin:"0 auto"}}>
                          {item.fpostContent}
@@ -195,7 +231,24 @@ export default function Audit(props){
                  )}
              />
          </div>
-         <div >
+         <div style={{marginTop:"20px"}}>
+             <div>
+                 <span style={{fontWeight:"bold"}}>
+                 回复{toFollow}楼:
+
+                 </span>
+             <Comment
+                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
+                content={
+                    <Editor
+                        onChange={handleChange}
+                        onSubmit={handleSubmit}
+                        //submitting={submitting}
+                        //value={value}
+                    />
+                }
+            />
+             </div>
              <MyComment />
 
          </div>
