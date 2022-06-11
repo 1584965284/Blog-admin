@@ -170,7 +170,23 @@ const flike=(params)=>{
         
     })
 }
+
+const new_mpost=(params)=>{
+
+    return  request({
+        method: 'post',
+        url: 'mposts/new_mpost',
+        headers: {
+            "Content-Type": "application/json",
+
+        },
+        params:params
+
+
+    })
+}
+
 export {
     getall,check_my_post,get_by_mid,get_by_tid,change_password,reg,change_avatar,new_fpost,
-    get_by_title,get_by_uid,change_info,get_by_uid2,mlike,flike
+    get_by_title,get_by_uid,change_info,get_by_uid2,mlike,flike,new_mpost
 } ;

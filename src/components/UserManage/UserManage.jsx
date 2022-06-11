@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import axios  from 'axios';
-import { List, Avatar, Space ,Input,Button,Modal, Tooltip,Select} from 'antd';
+import {List, Avatar, Space, Input, Button, Modal, Tooltip, Select, Comment,message} from 'antd';
 import {MessageOutlined, LikeOutlined, StarOutlined, PlusOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom'
 import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
-import {getall,get_by_tid,get_by_mid, get_by_title} from '@/request/topicAPI'
+import {getall,get_by_tid,get_by_mid, get_by_title,new_mpost} from '@/request/topicAPI'
 import MyComment from "@/components/Post/Post";
 let input1=false;
 let select='username';
+const { TextArea } = Input;
 
 
 export default function UserManage(props){
@@ -19,6 +20,8 @@ export default function UserManage(props){
     const { Option } = Select;
     const [data, setData] = useState([]);
     const [visible, setVisible] = useState(false);
+    const [title,setTitle]=useState('');
+    const [txt,setTxt]=useState('')
     const [userInfo,setUserInfo]=useState({});
    // const [select,setSelect]=useState('');
     const user={
@@ -84,10 +87,46 @@ const IconText = ({ icon, text }) => (
                 title="发帖"
                 centered
                 visible={visible}
-                onOk={() => setVisible(false)}
+                onOk={async () => {
+                    setVisible(false);
+                    let res=await new_mpost({post:{mpostTitle:title,mpostContent:txt}})
+                    if(res.state===200){
+                        message.success("发帖成功")
+                    }else{
+                        message.error(res.message)
+                    }
+                }}
                 onCancel={() => setVisible(false)}
                 width={700}
             >
+                <div style={{width:"70%",margin:"0 auto"}}>
+                    <div style={{fontWeight:"bold",marginBottom:"10px"}}>标题：</div>
+                    <TextArea
+                        showCount
+                        maxLength={40}
+                        style={{
+                            height: 40,width:440
+                        }}
+                        onChange={(e)=>{setTitle(e.target.value)}}
+                    />
+                    <Comment
+                        style={{marginTop:"20px"}}
+                        content={
+                            <div>
+                                <div style={{fontWeight:"bold",marginBottom:"20px"}}>正文：</div>
+                                <TextArea
+                                    showCount
+                                    maxLength={1000}
+                                    style={{
+                                        height: 240,width:440
+                                    }}
+                                    onChange={(e)=>{setTxt(e.target.value)}}
+                                />
+                            </div>
+
+                        }
+                    />
+                </div>
                 <MyComment />
             </Modal>
 

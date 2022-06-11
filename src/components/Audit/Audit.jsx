@@ -9,7 +9,7 @@ import moment from 'moment';
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined,PlusOutlined } from '@ant-design/icons';
 
 //import
-import {getall,check_my_post,get_by_mid,get_by_uid2,mlike,flike} from "@/request/topicAPI";
+import {getall,check_my_post,get_by_mid,get_by_uid2,mlike,flike,new_mpost} from "@/request/topicAPI";
 import MyComment from "@/components/Comment/Comment"
 
 
@@ -185,6 +185,8 @@ export default function Audit(props){
                              }
                              description={item.real_name}
                          />
+                         <Button style={{position:"relative",bottom:'45px',left:"90%",width:"70px"}} onClick={createFollow()}>回复</Button>
+
                          <div style={{width:'90%',margin:"0 auto"}}>
                          {item.fpostContent}
                              </div>

@@ -2,7 +2,7 @@ import {Avatar, Button, Comment, Form, Input,Upload,Modal} from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import React from "react";
 import {useState} from "react";
-import { change_avatar,new_fpost } from "@/request/topicAPI";
+import { change_avatar,new_fpost,new_mpost} from "@/request/topicAPI";
 
 
 const { TextArea } = Input;
@@ -12,7 +12,8 @@ export default function MyComment(){
     const [previewVisible, setPreviewVisible] = useState(false);
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
-    const [fileList, setFileList] = useState([])
+    const [fileList, setFileList] = useState([]);
+
 
     //let [value,setValue]=useState('');
 
@@ -95,29 +96,7 @@ export default function MyComment(){
     return(
         <div>
             <div style={{width:"70%",margin:"0 auto"}}>
-            标题：
-            <TextArea
-    showCount
-    maxLength={40}
-    style={{
-      height: 40,width:400
-    }}
-    onChange={()=>{}}
-  />
-            <Comment
-            style={{marginTop:"20px"}}
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
-                content={
-                    <TextArea
-    showCount
-    maxLength={40}
-    style={{
-      height: 240,width:400
-    }}
-    onChange={()=>{}}
-  />
-                }
-            />
+
             <>
                 <Upload
                     action="http://localhost:8080/users/change_avatar"
@@ -143,8 +122,8 @@ export default function MyComment(){
                 </Modal>
             </>
             </div>
-            
         </div>
+
     )
 
 }
