@@ -73,7 +73,20 @@ const change_avatar = (params)=>{
         data:params,
     })
 }
+const new_fpost = (post,fileList)=>{
+    return  request({
+        method: 'post',
+        url: 'fposts/new_fpost',
+        headers: {
+            "Content-Type": "application/json",
+        },
+        params:{post:post},
+        data:{img:fileList}
+        
+    })
+}
+
 
 export {
-    getall,check_my_post,get_by_mid,get_by_tid,change_password,reg,change_avatar
+    getall,check_my_post,get_by_mid,get_by_tid,change_password,reg,change_avatar,new_fpost
 } ;

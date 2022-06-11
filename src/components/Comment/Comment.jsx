@@ -2,7 +2,7 @@ import {Avatar, Button, Comment, Form, Input,Upload,Modal} from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import React from "react";
 import {useState} from "react";
-import { change_avatar } from "@/request/topicAPI";
+import { change_avatar,new_fpost } from "@/request/topicAPI";
 
 
 const { TextArea } = Input;
@@ -70,6 +70,10 @@ export default function MyComment(){
 
 // })
     };
+    const post =(file)=>{
+        console.log(file,2)
+        console.log(fileList)
+    }
 
     const uploadButton = (
         <div>
@@ -83,6 +87,12 @@ export default function MyComment(){
             </div>
         </div>
     );
+    const handleSubmit=async()=>{
+        let res=await new_fpost(
+            '151654wer',fileList
+        )
+        console.log(res)
+    }
 
     return(
         <div>
@@ -91,7 +101,7 @@ export default function MyComment(){
                 content={
                     <Editor
                         onChange={handleChange}
-                        //onSubmit={handleSubmit}
+                        onSubmit={handleSubmit}
                         //submitting={submitting}
                        // value={value}
                     />
@@ -99,7 +109,8 @@ export default function MyComment(){
             />
             <>
                 <Upload
-                    action="http://localhost:8080/users/change_avatar"
+                    //action="http://localhost:8080/users/change_avatar"
+                    //customRequest={post}
                     listType="picture-card"
                     fileList={fileList}
                     headers={{
