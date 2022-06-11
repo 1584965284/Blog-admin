@@ -65,6 +65,7 @@ export default function MyPage(){
     const [userInfo,setUserInfo]=useState({})
     const [loading, setLoading] = useState(false);
     const [imageUrl, setImageUrl] = useState();
+    const [imgurl,setImgurl]=useState('upload/a.jpg')
 
     //methods
     const onFinish = async (values) => {
@@ -87,7 +88,7 @@ export default function MyPage(){
 
         if (info.file.status === 'done') {
             // Get this url from response in real world.
-            console.log(info.file)
+           //console.log(info.file)
 //             console.log(file)
 //     let formdata=new FormData();
 // 	        formdata.append('file',file.file)
@@ -107,18 +108,26 @@ export default function MyPage(){
     return(
 
        <div style={{height:"800px"}}>
+           {/* <img src="file://D:\BBS\src\components\MyPage\a.jpg" alt="123" /> */}
            <div style={{overflow:"hidden"}}>
                <div style={{width:'200px',margin:"0 auto"}}>
                    <Avatar size={64} icon={<AntDesignOutlined />} />
+                   <img src={require('../../'+'upload/a.jpg')} alt="" />
+            {/* <div style={{width:"500px",height:"500px",backgroundImage:'url("../MyPage/a.jpg")'}}></div> */}
+
 
                </div>
+               <div></div>
                <div style={{width:'220px',margin:"20px auto"}} >
                    <Upload
                        name="avatar"
                        //listType="picture-card"
                        className="avatar-uploader"
                        showUploadList={false}
-                       action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                       action="http://localhost:8080/users/change_avatar"
+                       headers={{
+                        "uid":localStorage.getItem('token')
+                    }}
                        beforeUpload={beforeUpload}
                        onChange={handleChange}
                    >
