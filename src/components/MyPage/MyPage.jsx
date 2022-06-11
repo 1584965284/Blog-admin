@@ -109,6 +109,7 @@ export default function MyPage(){
 
        <div style={{height:"800px"}}>
            {/* <img src="file://D:\BBS\src\components\MyPage\a.jpg" alt="123" /> */}
+           {<img src="components\MyPage\a.jpg" alt="123" />}
            <div style={{overflow:"hidden"}}>
                <div style={{width:'200px',margin:"0 auto"}}>
                    <Avatar size={64} icon={<AntDesignOutlined />} />
