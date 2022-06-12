@@ -94,7 +94,7 @@ const get_by_uid=(params)=>{
         method: 'post',
         url: 'users/get_by_uid',
         headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/x-www-form-urlencoded",
             
         },
         params:params
@@ -201,7 +201,36 @@ const getM=(params)=>{
 
     })
 }
+const del_mpost=(params)=>{
+
+    return  request({
+        method: 'post',
+        url: 'mposts/del_mpost',
+        headers: {
+            "Content-Type": "application/json",
+
+        },
+        params:params
+
+
+    })
+}
+const del_fpost=(params)=>{
+
+    return  request({
+        method: 'post',
+        url: 'fposts/del_fpost',
+        headers: {
+            "Content-Type": "application/json",
+
+        },
+        params:params
+
+
+    })
+}
 export {
     getall,check_my_post,get_by_mid,get_by_tid,change_password,reg,change_avatar,new_fpost,
     get_by_title,get_by_uid,change_info,get_by_uid2,mlike,flike,new_mpost,getM,
+    del_mpost,del_fpost
 } ;

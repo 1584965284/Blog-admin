@@ -1,4 +1,5 @@
 import React,{ useEffect, useState} from 'react'
+import {useHistory} from 'react-router-dom'
 import { PlusOutlined } from '@ant-design/icons';
 import {
     Form,
@@ -72,6 +73,7 @@ const uploadButton = (
 );
 
 let avatar='';
+let userID='';
 export default function MyPage(){
     //data
   const [form] = Form.useForm();
@@ -92,6 +94,7 @@ export default function MyPage(){
     const [previewImage, setPreviewImage] = useState('');
     const [previewTitle, setPreviewTitle] = useState('');
 
+    const history =useHistory();
 
     //methods
     const onFinish = async (values) => {
@@ -138,7 +141,8 @@ const handleCancel = () => setPreviewVisible(false);
     useEffect(()=>{
         get_by_uid({uid:localStorage.getItem("token")}).then(res=>{
             if(res.state===200){
-                avatar=res.data.profile
+                avatar=res.data.profile;
+                userID=localStorage.getItem("token")
             }
         })
     },[])
@@ -150,12 +154,13 @@ const handleCancel = () => setPreviewVisible(false);
            <div style={{overflow:"hidden"}}>
                <div style={{width:'200px',margin:"0 auto"}}>
                    <Avatar size={64} src={"http://localhost:8080/upload/"+avatar} />
-            {/* <div style={{width:"500px",height:"500px",backgroundImage:'url("../MyPage/a.jpg")'}}></div> */}
-
-
                </div>
-               <div></div>
-               <div style={{width:'220px',margin:"20px auto"}} >
+               <div style={{margin:"10px,auto",width:"200px",
+               position:"relative",left:"370px",top:"20px"}}><Button onClick={()=>{
+                history.push('/forum/userPage/'+userID)
+               }}>我的发帖</Button></div>
+
+               <div style={{width:'220px',margin:"40px auto",}} >
                <>
                 <Upload
                     action="http://localhost:8080/users/change_avatar"
@@ -321,7 +326,7 @@ const handleCancel = () => setPreviewVisible(false);
                    </Form>
                    
                ):(
-                   <Button type="primary" style={{position:"absolute", marginLeft:"100px",top:"500px"}} onClick={()=>{setIsChangeInfo(true)}}>修改信息</Button>
+                   <Button type="primary" style={{position:"relative", marginLeft:"100px",top:"100px"}} onClick={()=>{setIsChangeInfo(true)}}>修改信息</Button>
 
                    )}
            </div>

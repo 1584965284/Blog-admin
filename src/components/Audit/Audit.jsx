@@ -9,11 +9,16 @@ import moment from 'moment';
 import { DislikeFilled, DislikeOutlined, LikeFilled, LikeOutlined,PlusOutlined } from '@ant-design/icons';
 
 //import
-import {getall,check_my_post,get_by_mid,get_by_uid2,mlike,flike,new_mpost,new_fpost,getM} from "@/request/topicAPI";
+import {getall,check_my_post,get_by_mid,get_by_uid2,mlike,flike,
+    new_mpost,new_fpost,getM,get_by_uid,del_mpost,del_fpost} from "@/request/topicAPI";
 import MyComment from "@/components/Comment/Comment"
 const { TextArea } = Input;
+
+
+
 //帖子内容以及回帖
 export default function Audit(props){
+
     //data
     const [likes, setLikes] = useState(0);
     const [isAuthor, setIsAuthor] = useState(false);
@@ -23,10 +28,11 @@ export default function Audit(props){
     const [visible, setVisible] = useState(false);
     const [toFollow,setToFollow]=useState(0);
     const [mPost,setMPost]=useState({});
-
+    const [user,setUser]=useState({})
     let [value,setValue]=useState('');
 
-    
+    const history =useHistory();
+    const myID=localStorage.getItem("token")
 
 //methods
 
@@ -52,14 +58,23 @@ const handleChange=(e)=>{
 const handleSubmit=async()=>{
         // console.log(value)
     new_fpost({
-        post:{
+        
             mpostID:props.match.params.mid,
             fpostContent:value,
             ffloor:toFollow
-        }
+        
     }).then(res=>{
         if(res.state===200){
-            message.success("跟帖成功")
+            message.success("跟帖成功");
+            get_by_mid({mid:props.match.params.mid})
+            .then(res => {
+                if(res.state===200){
+                    /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
+                    setData(res.data);
+                }
+
+            });
+
         }else{
             message.error(res.message)
         }
@@ -113,9 +128,7 @@ const handleSubmit=async()=>{
     useEffect( () => {
         get_by_mid({mid:props.match.params.mid})
             .then(res => {
-                //console.log(res.data.data.userInfo)
                 if(res.state===200){
-                    /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
                     setData(res.data);
                 }
 
@@ -132,6 +145,11 @@ const handleSubmit=async()=>{
             getM({mid:props.match.params.mid}).then(res=>{
                 if(res.state===200){
                     setMPost(res.data)
+                    get_by_uid({uid:res.data.userID}).then(res=>{
+                        if(res.state===200){
+                            setUser(res.data)
+                        }
+                    })
                 }else {message.error(res.message)}
             })
     }, []);
@@ -174,16 +192,26 @@ const handleSubmit=async()=>{
              </div>
              <Comment
                  actions={actions}
-                 author={<a>Han Solo</a>}
-                 avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
+                 author={<a style={{fontSize:"16px",fontWeight:"bold"}}>{user.userName}</a>}
+                 avatar={<Avatar src={"http://localhost:8080/upload/"+user.profile} alt="Han Solo" />}
                  content={mPost.mpostContent}
                  datetime={
                      <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                         <span>{moment().fromNow()}</span>
+                         <span>{mPost.mpostTime?(mPost.mpostTime.slice(0,10)):("暂无时间")}</span>
                      </Tooltip>
                  }
              />
-             {isAuthor?(<span key="comment-basic-reply-to">删除帖子</span>):(<div></div>)}
+             {isAuthor?(<a key="comment-basic-reply-to"
+                style={{fontSize:"12px",display:'block',position:"relative",bottom:"37px",left:"150px"}}
+                onClick={()=>{
+                    del_mpost({mid:props.match.params.mid}).then(res=>{
+                        if(res.state===200){
+                            message.success("删除成功");
+                            history.push('/forum/posts/'+mPost.topicID)
+                        }else message.error(res.message)
+                    })
+                }}
+             >删除帖子</a>):(<div></div>)}
          </div>
          <div>
              <List
@@ -219,10 +247,30 @@ const handleSubmit=async()=>{
                                      {item.userName}
                                  </a>
                              }
-                             description={item.ffloor+'楼  '+' '+'  '+item.fpostTime.slice(0,10)}
+                             description={item.fpostTime?(item.ffloor+'楼  '+' '+'  '+item.fpostTime.slice(0,10)):('暂无时间')}
                          />
                          <Button style={{position:"relative",bottom:'45px',left:"90%",width:"70px"}} onClick={createFollow.bind(this,item.ffloor)}>回复</Button>
+                           { item.userID==myID?
+                               (  <a key="comment-basic-reply-to"
+                               style={{fontSize:"12px",display:'block',position:"relative",bottom:"70px",left:"180px"}}
+                               onClick={()=>{
+                                del_fpost({fid:item.fpostID}).then(res=>{
+                                       if(res.state===200){
+                                           message.success("删除成功");
+                                           get_by_mid({mid:props.match.params.mid})
+                                            .then(res => {
+                                                if(res.state===200){
+                                                    setData(res.data);
+                                                }
 
+                                            });
+
+                                           
+                                       }else message.error(res.message)
+                                   })
+                               }}
+                           >删除</a>):(<div></div>)
+                           } 
                          <div style={{width:'90%',margin:"0 auto"}}>
                          {item.fpostContent}
                              </div>
@@ -238,7 +286,7 @@ const handleSubmit=async()=>{
 
                  </span>
              <Comment
-                avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
+                avatar={<Avatar src={"http://localhost:8080/upload/"+user.profile} alt="Han Solo" />}
                 content={
                     <Editor
                         onChange={handleChange}

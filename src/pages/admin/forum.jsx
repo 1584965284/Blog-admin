@@ -5,6 +5,7 @@ import './admin.less'
 import './header/header.less'
 import  '../../components/Audit/Audit.less'
 import MyHeader from './header/Myheader'
+import UserPage from '@/components/UserPage/UserPage';
 import {useHistory,Route,Switch,useLocation} from 'react-router-dom'
 
 
@@ -119,6 +120,7 @@ export default function Forum(props){
                                 <Switch>
                                     <Route path="/forum/posts/:tid" component={Posts} />
                                     <Route path="/forum/follows/:mid" component={Audit} />
+                                    <Route path="/forum/userPage/:uid" component={UserPage} />
 
                                     <Route path="/forum/MyPage" component={MyPage} />
 

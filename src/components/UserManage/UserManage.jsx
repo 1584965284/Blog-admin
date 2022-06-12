@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios  from 'axios';
-import {List, Avatar, Space, Input, Button, Modal, Tooltip, Select, Comment,message} from 'antd';
+import {List, Avatar, Space, Input, Button, Modal, Tooltip, Select, Comment,message,Calendar} from 'antd';
 import {MessageOutlined, LikeOutlined, StarOutlined, PlusOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom'
 import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
@@ -23,6 +23,7 @@ export default function UserManage(props){
     const [title,setTitle]=useState('');
     const [txt,setTxt]=useState('')
     const [userInfo,setUserInfo]=useState({});
+    const [isShowCalendar,setIsShowCalendar]=useState(false)
    // const [select,setSelect]=useState('');
     
     const history =useHistory();
@@ -65,7 +66,9 @@ const onSearch = value => {
     )
     
 };
-
+const onPanelChange = (value, mode) => {
+  console.log(value.format('YYYY-MM-DD'), mode);
+};
 const IconText = ({ icon, text }) => (
   <Space>
     {React.createElement(icon)}
@@ -78,15 +81,30 @@ const IconText = ({ icon, text }) => (
 
     return(
         <div>
+           <Modal title="选择日期" visible={isShowCalendar} onOk={()=>{}} onCancel={()=>{}}>
+            <div className="site-calendar-demo-card">
+                  <Calendar fullscreen={false} onPanelChange={onPanelChange} />
+            </div>
+        </Modal>
             <Modal
                 title="发帖"
                 centered
                 visible={visible}
                 onOk={async () => {
                     setVisible(false);
-                    let res=await new_mpost({post:{mpostTitle:title,mpostContent:txt}})
+                    let res=await new_mpost({mpostTitle:title,mpostContent:txt,topicID:props.match.params.tid})
                     if(res.state===200){
-                        message.success("发帖成功")
+                        message.success("发帖成功");
+                        get_by_tid({tid:props.match.params.tid})
+                          .then(res => {
+                              if(res.state===200){
+                                  //console.log(1);
+                                  /*setData([...data, ...JSON.parse(res.data.data.adminInfo1) ]);*/
+                                  setData(res.data);
+                              }
+
+                          })
+
                     }else{
                         message.error(res.message)
                     }
@@ -156,19 +174,21 @@ const IconText = ({ icon, text }) => (
         }
       >
         <List.Item.Meta
-          avatar={<Avatar src={item.avatar} />}
+          avatar={<Avatar src={"http://localhost:8080/upload/"+item.profile} />}
           title={
             <a onClick={() => {
              history.push('/forum/follows/'+item.mpostID)
-            //setVisible(true);
-            //userInfo=JSON.parse(JSON.stringify(item));
-           // setUserInfo(item)
-          }}>
+          }}
+            style={{fontWeight:'bold'}}
+          >
           {item.mpostTitle}
           </a>
         }
           description={item.mpostTime?item.mpostTime.slice(0,10):"暂无时间"}
         />
+        <div
+          style={{position:"relative",bottom:"12px",left:"45px",width:"400px",overflow:"hidden",fontWeight:"500"}}
+        ><span style={{fontWeight:"500"}}>作者：</span>{item.userName}</div>
           <div style={{width:"90%",margin:"0 auto" ,maxHeight:"110px",overflow:"hidden",textOverflow:"ellipsis"}}>
               {item.mpostContent}
           </div>
