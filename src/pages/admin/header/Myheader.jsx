@@ -31,7 +31,7 @@ export default function MyHeader(){
               message.success('已安全退出')
               localStorage.clear();
               setTimeout(() => {
-                history.push('/login')
+                history.push('/master')
               }, 200);
               
             }
@@ -42,9 +42,8 @@ export default function MyHeader(){
   return(
     <div>
     <Header className="header">
-    <Avatar size={40} src={"http://localhost:8080/upload/"+JSON.parse(localStorage.getItem('user')).profile}
-    style={{position:"absolute",zIndex:"999",right:"120px",top:"10px"}}/>
-      <span className='rightName'>{JSON.parse(localStorage.getItem('user')).userName}</span>
+    
+      <span className='rightName'></span>
       <Menu onClick={handleClick} theme="dark" mode="horizontal" defaultSelectedKeys={['1']} items={items1} />
       
     </Header>

@@ -27,7 +27,7 @@ export default function App (){
        //      }
        //  }
     if(!localStorage.getItem('token')){
-        history.push('/login')
+        history.push('/master')
     }else{
         history.push('/forum')
     }

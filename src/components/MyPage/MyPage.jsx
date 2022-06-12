@@ -161,7 +161,7 @@ const handleCancel = () => setPreviewVisible(false);
                }}>我的发帖</Button></div>
 
                <div style={{width:'220px',margin:"40px auto",}} >
-               <>
+               {/* <>
                 <Upload
                     action="http://localhost:8080/users/change_avatar"
                     //customRequest={post}
@@ -184,7 +184,7 @@ const handleCancel = () => setPreviewVisible(false);
                         src={previewImage}
                     />
                 </Modal>
-            </>
+            </> */}
 
                </div>
 
@@ -275,7 +275,7 @@ const handleCancel = () => setPreviewVisible(false);
                        </div>
                    )
            }
-           <div style={{marginTop:"10px"}}>
+           {/* <div style={{marginTop:"10px"}}>
                {isChangeInfo ? (
                    <Form onFinish={(v)=>{
                     //console.log(email,sex)
@@ -329,7 +329,7 @@ const handleCancel = () => setPreviewVisible(false);
                    <Button type="primary" style={{position:"relative", marginLeft:"100px",top:"100px"}} onClick={()=>{setIsChangeInfo(true)}}>修改信息</Button>
 
                    )}
-           </div>
+           </div> */}
 
        </div>
 

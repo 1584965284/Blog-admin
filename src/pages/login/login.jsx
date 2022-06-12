@@ -5,6 +5,8 @@ import { Form, Input, Button, Checkbox,message } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import './css/login.less'
 import { LoginApi } from '../../request/api';
+import {getall,admin_login} from "@/request/topicAPI";
+
 import axios from 'axios';
 import moment from 'moment'
 moment.locale('zh-cn');  
@@ -13,23 +15,17 @@ export default function Login (){
      
        const history=useHistory()
       const onFinish=(value)=>{
-         axios({
-          method: 'post',
-          url: 'http://114.55.119.223/prod-api/api/master/adminLogin',
-          headers: {
-            "Authorization": "APPCODE " + '77814df9dff44705998c764a6fa71f54'
-        },
-          data:{name:value.username,pwd:value.password}
-      }).then(res=>{
+        console.log(value)
+         admin_login({Adminname:value.username,password:value.password}).then(res=>{
         
-        if(res.data.errCode===0){
+        if(res.state===200){
           message.success('登录成功')
-          localStorage.setItem('token',res.data.data.token)
-          localStorage.setItem('name',res.data.data.name)
-          localStorage.setItem('lastLoginTime',moment(new Date()))
+          localStorage.setItem('token',res.data.aid)
+           localStorage.setItem('name',res.data.adminName)
+          // localStorage.setItem('lastLoginTime',moment(new Date()))
           
           setTimeout(() => {
-            //history.push('/admin')
+            history.push('/forum')
           }, 200);
         }else{
           message.error('登录失败')

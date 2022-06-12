@@ -46,7 +46,7 @@ const get_by_tid =(params)=>{
 const change_password = (params)=>{
     return  request({
         method: 'get',
-        url: 'users/change_password',
+        url: 'admins/change_password',
         headers: {
             "Content-Type": "application/json",
         },
@@ -257,8 +257,77 @@ const getPost=(params)=>{
     })
 }
 
+const admin_login=(params)=>{
+
+    return  request({
+        method: 'post',
+        url: 'admins/login',
+        headers: {
+            "Content-Type": "application/json",
+
+        },
+        params:params
+
+
+    })
+}
+const getAllFPost=()=>{
+
+    return  request({
+        method: 'post',
+        url: 'fposts/get_all',
+        headers: {
+            "Content-Type": "application/json",
+
+        },
+    })
+}
+const new_topic=(params)=>{
+
+    return  request({
+        method: 'post',
+        url: 'topics/new_topic',
+        headers: {
+            "Content-Type": "application/json",
+
+        },
+        params:params
+
+
+    })
+}
+const edit_topic=(params)=>{
+
+    return  request({
+        method: 'post',
+        url: 'topics/edit_topic',
+        headers: {
+            "Content-Type": "application/json",
+
+        },
+        params:params
+
+
+    })
+}
+const del_topic=(params)=>{
+
+    return  request({
+        method: 'post',
+        url: 'topics/del_topic',
+        headers: {
+            "Content-Type": "application/json",
+
+        },
+        params:params
+
+
+    })
+}
+
 export {
     getall,check_my_post,get_by_mid,get_by_tid,change_password,reg,change_avatar,new_fpost,
     get_by_title,get_by_uid,change_info,get_by_uid2,mlike,flike,new_mpost,getM,
-    del_mpost,del_fpost,get_by_day,getPost
+    del_mpost,del_fpost,get_by_day,getPost,
+    admin_login,getAllFPost,new_topic,edit_topic,del_topic
 } ;

@@ -13,10 +13,13 @@ import Audit from '../../components/Audit/Audit'
 import MasterManage from '../../components/MasterManage/MasterManage'
 import MyPage from '../../components/MyPage/MyPage'
 import Posts from '../../components/UserManage/UserManage'
+import MPost from '@/components/MPost/MPost'
+import FPost from '@/components/FPost/FPost'
+import Topic from '@/components/Topic/Topic'
 import {getall} from "@/request/topicAPI";
 const { Header, Content, Sider } = Layout;
 
-
+const menu=["mpost","fpost","user","topic"]
 export default function Forum(props){
 //data
     const [item,setItem]=useState([]);
@@ -32,27 +35,21 @@ export default function Forum(props){
         const handleClick=e=>{
            // console.log(leftNav[e.key].topicID);
             setSelect([e.key.toString()])
-            history.push('/forum/posts/'+leftNav[e.key].topicID);
+            history.push('/'+menu[e.key]);
         }
     useEffect( () => {
 
         async function fun(){
-            let nav=[];
-           let res=  await getall();
-            //console.log(res);
-            if (res.state===200){
-                //leftNavInfo.push
-                const leftNavInfo=res.data;
-               nav=res.data;
-                //console.log(nav);
+            let nav=["主帖管理","跟帖管理","用户管理","版面管理"];
+           
+                const leftNavInfo=nav;
                 setLeftNav(leftNavInfo);
                 let items3 =leftNavInfo.map((a,key) => ({
                     key,
-                    label: a.topicName,
+                    label: a,
 
                 }));
-                setItem(items3)
-            }
+                setItem(items3);
             console.log(props);
 
             if(pathname==='/'){
@@ -121,6 +118,11 @@ export default function Forum(props){
                                     <Route path="/forum/posts/:tid" component={Posts} />
                                     <Route path="/forum/follows/:mid" component={Audit} />
                                     <Route path="/forum/userPage/:uid" component={UserPage} />
+
+                                    <Route path="/mpost" component={MPost} />
+                                    <Route path="/fpost" component={FPost} />
+                                    <Route path="/user" component={UserPage} />
+                                    <Route path="/topic" component={Topic} />
 
                                     <Route path="/forum/MyPage" component={MyPage} />
 
