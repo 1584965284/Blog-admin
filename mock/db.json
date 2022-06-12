@@ -1,6 +1,5 @@
 {
   "login": {
-
     "state": 200,
     "data": {
       "uid": 101
@@ -12,100 +11,59 @@
   "reg": {
     "state": 200
   },
-  "getall":{
-
+  "getall": {
     "state": 200,
-    "data":[
+    "data": [
       {
-        "topicName":"娱乐",
+        "topicName": "娱乐",
         "topicID": 1001
       },
       {
-        "topicName":"娱乐",
+        "topicName": "娱乐",
         "topicID": 1002
       },
       {
-        "topicName":"娱乐",
+        "topicName": "娱乐",
         "topicID": 1003
       },
       {
-        "topicName":"娱乐",
+        "topicName": "娱乐",
         "topicID": 1004
       }
     ]
-
   },
   "get_by_tid": {
-
-    "state":200,
-    "data":[
+    "state": 200,
+    "data": [
       {
-        "mpostTitle":"title1",
+        "mpostTitle": "title1",
         "mpostID": "m0"
       },
       {
-        "mpostTitle":"title1",
+        "mpostTitle": "title1",
         "mpostID": "m1"
       },
       {
-        "mpostTitle":"title1",
+        "mpostTitle": "title1",
         "mpostID": "m2"
       },
       {
-        "mpostTitle":"title1",
+        "mpostTitle": "title1",
         "mpostID": 3
       },
       {
-        "mpostTitle":"title1",
+        "mpostTitle": "title1",
         "mpostID": 4
       },
       {
-        "mpostTitle":"title1",
+        "mpostTitle": "title1",
         "mpostID": 5
       },
       {
-        "mpostTitle":"title1",
+        "mpostTitle": "title1",
         "mpostID": 6
       }
     ]
-
   },
-  "get_by_mid": {
-
-    "state": 200,
-    "data":[
-      {
-        "fpostContent":"content"
-      },
-      {
-        "fpostContent":"content"
-      },
-      {
-        "fpostContent":"content"
-      },
-      {
-        "fpostContent":"content"
-      },
-      {
-        "fpostContent":"content"
-      },
-      {
-        "fpostContent":"content"
-      },
-      {
-        "fpostContent":"content"
-      },
-      {
-        "fpostContent":"content"
-      },
-      {
-        "fpostContent":"content"
-      },
-      {
-        "fpostContent":"content"
-      }
-    ]
-  }
-
-
+  "get_by_mid": {}
 }

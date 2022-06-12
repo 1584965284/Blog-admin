@@ -1,4 +1,4 @@
-import React,{Component}  from 'react'
+import React,{ useEffect, useState}   from 'react'
 import { Layout, Menu, Breadcrumb, message } from 'antd';
 import { UserOutlined, LaptopOutlined, NotificationOutlined } from '@ant-design/icons';
 import {useHistory,Route,Switch} from 'react-router-dom'
@@ -13,6 +13,7 @@ const items1 = ['1', '2', '3'].map((key) => ({
   label: headerNavInfo[key-1],
   
 }));
+const user={}
 
 export default function MyHeader(){
   const history =useHistory()
@@ -35,11 +36,13 @@ export default function MyHeader(){
               
             }
         }
+    useEffect(()=>{
 
+    },[])
   return(
     <div>
     <Header className="header">
-    <Avatar size={40} src={"http://localhost:8080/upload/"+JSON.parse(localStorage.getItem('user')).profile} 
+    <Avatar size={40} src={"http://localhost:8080/upload/"+JSON.parse(localStorage.getItem('user')).profile}
     style={{position:"absolute",zIndex:"999",right:"120px",top:"10px"}}/>
       <span className='rightName'>{JSON.parse(localStorage.getItem('user')).userName}</span>
       <Menu onClick={handleClick} theme="dark" mode="horizontal" defaultSelectedKeys={['1']} items={items1} />
