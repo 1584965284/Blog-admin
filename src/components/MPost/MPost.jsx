@@ -210,8 +210,10 @@ const IconText = ({ icon, text }) => (
           {item.mpostTitle}
           </a>
         }
+        
           description={item.mpostTime?item.mpostTime.slice(0,10):"暂无时间"}
         />
+        <div style={{color:"gray",textAlign:"right",width:"90%",position:"absolute"}}>最后回帖时间：{item.lastFoTime.slice(0,10)+' '+item.lastFoTime.slice(11,19)}</div>
         <a key="comment-basic-reply-to"
                 style={{fontSize:"12px",display:'block',position:"relative",bottom:"37px",left:"150px"}}
                 onClick={()=>{

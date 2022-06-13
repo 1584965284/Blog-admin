@@ -116,26 +116,25 @@ const IconText = ({ icon, text }) => (
                 title="修改版面"
                 centered
                 visible={visible}
-                onOk={async () => {
+                onOk={() => {
                     console.log(isAdd)
                     setVisible(false);
-                    if(isAdd===true){
-                            let res=await new_topic({topicName:title,topicIntro:txt})
-                        if(res.state===200){
-                            message.success("成功");
-                            getall().then(res => {
-                                if(res.state===200){
-                                    setData(res.data);
-                                }
-                                setVisible(false)
-                            })
-
-                        }else{
-                            message.error(res.message);setVisible(false);
-                        }
-                    }else{
-                        let res2=await edit_topic({topicName:title,topicIntro:txt,tid:tid})
-                    }
+                    
+                        edit_topic({topicName:title,topicIntro:txt,tid:tid}).then(res=>{
+                            if(res.state===200){
+                                message.success("成功");
+                                getall().then(res => {
+                                    if(res.state===200){
+                                        setData(res.data);
+                                    }
+                                    setVisible(false)
+                                })
+    
+                            }else{
+                                message.error(res.message);setVisible(false);
+                            }
+                        })
+                        
                     
                 }}
                 onCancel={() => setVisible(false)}
