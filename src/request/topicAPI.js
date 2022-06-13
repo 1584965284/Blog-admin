@@ -324,10 +324,21 @@ const del_topic=(params)=>{
 
     })
 }
+const getAllMPost=()=>{
+
+    return  request({
+        method: 'post',
+        url: 'mposts/get_all',
+        headers: {
+            "Content-Type": "application/json",
+        },
+    })
+}
+
 
 export {
     getall,check_my_post,get_by_mid,get_by_tid,change_password,reg,change_avatar,new_fpost,
     get_by_title,get_by_uid,change_info,get_by_uid2,mlike,flike,new_mpost,getM,
     del_mpost,del_fpost,get_by_day,getPost,
-    admin_login,getAllFPost,new_topic,edit_topic,del_topic
+    admin_login,getAllFPost,new_topic,edit_topic,del_topic,getAllMPost
 } ;

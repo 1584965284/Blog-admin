@@ -4,7 +4,7 @@ import {List, Avatar, Space, Input, Button, Modal, Tooltip, Select, Comment,mess
 import {MessageOutlined, LikeOutlined, StarOutlined, PlusOutlined} from '@ant-design/icons';
 import {useHistory} from 'react-router-dom'
 import { InfoCircleOutlined, UserOutlined } from '@ant-design/icons';
-import {getall,get_by_tid,get_by_mid, get_by_title,new_mpost,get_by_day} from '@/request/topicAPI'
+import {getall,get_by_tid,get_by_mid, get_by_title,new_mpost,get_by_day,getAllMPost,del_mpost} from '@/request/topicAPI'
 import MyComment from "@/components/Post/Post";
 
 import moment from 'moment';
@@ -60,7 +60,7 @@ export default function UserManage(props){
 
 
     useEffect(() => {
-        get_by_tid({tid:props.match.params.tid})
+        getAllMPost()
             .then(res => {
                 if(res.state===200){
                     setData(res.data);
@@ -212,6 +212,17 @@ const IconText = ({ icon, text }) => (
         }
           description={item.mpostTime?item.mpostTime.slice(0,10):"暂无时间"}
         />
+        <a key="comment-basic-reply-to"
+                style={{fontSize:"12px",display:'block',position:"relative",bottom:"37px",left:"150px"}}
+                onClick={()=>{
+                    del_mpost({mid:item.mpostID}).then(res=>{
+                        if(res.state===200){
+                            message.success("删除成功");
+                            getAllMPost().then(res=>{if(res.state===200)setData(res.data)})
+                        }else message.error(res.message)
+                    })
+                }}
+             >删除帖子</a>
         <div
           style={{position:"relative",bottom:"12px",left:"45px",width:"400px",overflow:"hidden",fontWeight:"500"}}
         ><span style={{fontWeight:"500"}}>作者：</span>{item.userName}</div>

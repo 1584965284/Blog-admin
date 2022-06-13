@@ -260,7 +260,7 @@ const handleSubmit=async()=>{
                          <Button style={{position:"relative",bottom:'45px',left:"90%",width:"70px"}} onClick={createFollow.bind(this,item.ffloor)}>回复</Button>
                            { item.userID==myID?
                                (  <a key="comment-basic-reply-to"
-                               style={{fontSize:"12px",display:'block',position:"relative",bottom:"70px",left:"180px"}}
+                               style={{width:"200px",fontSize:"12px",display:'block',position:"relative",bottom:"70px",left:"180px"}}
                                onClick={()=>{
                                 del_fpost({fid:item.fpostID}).then(res=>{
                                        if(res.state===200){
