@@ -110,14 +110,14 @@ const IconText = ({ icon, text }) => (
             </div>
         </Modal>
             <Modal
-                title="发帖"
+                title="发送博客"
                 centered
                 visible={visible}
                 onOk={async () => {
                     setVisible(false);
                     let res=await new_mpost({mpostTitle:title,mpostContent:txt,topicID:props.match.params.tid})
                     if(res.state===200){
-                        message.success("发帖成功");
+                        message.success("成功");
                         get_by_tid({tid:props.match.params.tid})
                           .then(res => {
                               if(res.state===200){
@@ -213,7 +213,7 @@ const IconText = ({ icon, text }) => (
         
           description={item.mpostTime?item.mpostTime.slice(0,10):"暂无时间"}
         />
-        <div style={{color:"gray",textAlign:"right",width:"90%",position:"absolute"}}>最后回帖时间：{item.lastFoTime.slice(0,10)+' '+item.lastFoTime.slice(11,19)}</div>
+        <div style={{color:"gray",textAlign:"right",width:"90%",position:"absolute"}}>最后回复时间：{item.lastFoTime.slice(0,10)+' '+item.lastFoTime.slice(11,19)}</div>
         <a key="comment-basic-reply-to"
                 style={{fontSize:"12px",display:'block',position:"relative",bottom:"37px",left:"150px"}}
                 onClick={()=>{
@@ -224,7 +224,7 @@ const IconText = ({ icon, text }) => (
                         }else message.error(res.message)
                     })
                 }}
-             >删除帖子</a>
+             >删除博客</a>
         <div
           style={{position:"relative",bottom:"12px",left:"45px",width:"400px",overflow:"hidden",fontWeight:"500"}}
         ><span style={{fontWeight:"500"}}>作者：</span>{item.userName}</div>

@@ -65,7 +65,7 @@ const handleSubmit=async()=>{
         
     }).then(res=>{
         if(res.state===200){
-            message.success("跟帖成功");
+            message.success("成功");
             get_by_mid({mid:props.match.params.mid})
             .then(res => {
                 if(res.state===200){

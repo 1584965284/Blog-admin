@@ -37,7 +37,7 @@ export default function Login (){
         return(
         <div className='login'>
             <header>
-                <h1>BBS后台管理系统</h1>
+                <h1>Blog后台管理系统</h1>
             </header>
 
             <section>

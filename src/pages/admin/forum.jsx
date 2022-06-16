@@ -40,7 +40,7 @@ export default function Forum(props){
     useEffect( () => {
 
         async function fun(){
-            let nav=["主帖管理","跟帖管理","用户管理","版面管理"];
+            let nav=["博客管理","回复管理","用户管理","分类管理"];
            
                 const leftNavInfo=nav;
                 setLeftNav(leftNavInfo);

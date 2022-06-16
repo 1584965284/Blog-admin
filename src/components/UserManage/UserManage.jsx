@@ -110,14 +110,14 @@ const IconText = ({ icon, text }) => (
             </div>
         </Modal>
             <Modal
-                title="发帖"
+                title="发博客"
                 centered
                 visible={visible}
                 onOk={async () => {
                     setVisible(false);
                     let res=await new_mpost({mpostTitle:title,mpostContent:txt,topicID:props.match.params.tid})
                     if(res.state===200){
-                        message.success("发帖成功");
+                        message.success("博客发送成功");
                         get_by_tid({tid:props.match.params.tid})
                           .then(res => {
                               if(res.state===200){

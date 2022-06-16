@@ -65,7 +65,7 @@ const handleSubmit=async()=>{
         
     }).then(res=>{
         if(res.state===200){
-            message.success("跟帖成功");
+            message.success("成功");
             get_by_mid({mid:props.match.params.mid})
             .then(res => {
                 if(res.state===200){
@@ -168,7 +168,7 @@ const handleSubmit=async()=>{
 
          </>
          <Modal
-             title="发帖"
+             title="发博客"
              centered
              visible={visible}
              onOk={() => setVisible(false)}
@@ -217,7 +217,7 @@ const handleSubmit=async()=>{
                         }else message.error(res.message)
                     })
                 }}
-             >删除帖子</a>):(<div></div>)}
+             >删除博客</a>):(<div></div>)}
          </div>
          <div>
              <List
